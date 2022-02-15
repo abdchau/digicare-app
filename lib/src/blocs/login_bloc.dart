@@ -1,8 +1,9 @@
-import 'dart:async';
-import 'validators.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:flutter/material.dart';
 
-class Bloc with Validator {
+import 'validators.dart';
+
+class LoginBloc with Validator {
   final _email = BehaviorSubject<String>();
   final _password = BehaviorSubject<String>();
 
@@ -16,9 +17,10 @@ class Bloc with Validator {
   CombineLatestStream<dynamic, bool> get submitValid =>
       CombineLatestStream.combine2(emailStream, passwordStream, (e, p) => true);
 
-  void submit() {
+  void submit(BuildContext context) {
     final validEmail = _email.value;
     final validPassword = _password.value;
     print("Off to the API with $validEmail, $validPassword");
+    Navigator.pushNamed(context, "/dashboard");
   }
 }

@@ -1,25 +1,32 @@
 import 'package:flutter/material.dart';
-import '../blocs/bloc.dart';
-import '../blocs/provider.dart';
+
+// import '../blocs/login_provider.dart';
+import '../blocs/login_bloc.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Bloc bloc = Provider.of(context);
+    LoginBloc bloc = Provider.of<LoginBloc>(context);
 
-    return Container(
-      margin: const EdgeInsets.all(20),
-      child: Column(
-        children: [
-          emailField(bloc),
-          passwordField(bloc),
-          submitButton(bloc),
-        ],
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Login'),
+      ),
+      body: Container(
+        margin: const EdgeInsets.all(20),
+        child: Column(
+          children: [
+            emailField(bloc),
+            passwordField(bloc),
+            submitButton(bloc, context),
+          ],
+        ),
       ),
     );
   }
 
-  Widget emailField(Bloc bloc) {
+  Widget emailField(LoginBloc bloc) {
     return StreamBuilder(
       stream: bloc.emailStream,
       builder: (BuildContext context, snapshot) {
@@ -36,7 +43,7 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  Widget passwordField(Bloc bloc) {
+  Widget passwordField(LoginBloc bloc) {
     return StreamBuilder(
       stream: bloc.passwordStream,
       builder: (BuildContext context, snapshot) {
@@ -54,12 +61,16 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  Widget submitButton(Bloc bloc) {
+  Widget submitButton(LoginBloc bloc, BuildContext context) {
     return StreamBuilder(
         stream: bloc.submitValid,
         builder: (context, snapshot) {
           return ElevatedButton(
-            onPressed: snapshot.hasData ? bloc.submit : null,
+            onPressed: snapshot.hasData
+                ? () {
+                    bloc.submit(context);
+                  }
+                : null,
             child: const Text('Submit'),
           );
         });
