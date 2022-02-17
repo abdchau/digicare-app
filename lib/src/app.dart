@@ -1,16 +1,18 @@
-import 'package:digicare/src/screens/dashboard_screen.dart';
+import 'package:digicare/src/widgets/profile_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'screens/login_screen.dart';
-// import 'blocs/login_provider.dart';
 import 'blocs/login_bloc.dart';
+import 'blocs/user_bloc.dart';
+import 'blocs/sensor_bloc.dart';
+import 'screens/dashboard_screen.dart';
 
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Provider<LoginBloc>(
-      create: (BuildContext context) => LoginBloc(),
+    return Provider<UserBloc>(
+      create: (BuildContext context) => UserBloc(),
       child: MaterialApp(
         title: 'Digicare',
         onGenerateRoute: routes,
@@ -22,13 +24,21 @@ class App extends StatelessWidget {
     if (settings.name == '/') {
       return MaterialPageRoute(
         builder: (BuildContext context) {
-          return LoginScreen();
+          return Provider<LoginBloc>(
+            create: (BuildContext context) => LoginBloc(),
+            child: LoginScreen(),
+          );
         },
       );
     } else {
-      return MaterialPageRoute(builder: (BuildContext context) {
-        return DashboardScreen();
-      });
+      return MaterialPageRoute(
+        builder: (BuildContext context) {
+          return Provider<SensorBloc>(
+            create: (BuildContext context) => SensorBloc(),
+            child: ProfileScreen(),
+          );
+        },
+      );
     }
   }
 }

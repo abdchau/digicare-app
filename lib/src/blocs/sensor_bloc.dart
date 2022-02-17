@@ -1,0 +1,3 @@
+class SensorBloc {
+  String currentSensor = "";
+}

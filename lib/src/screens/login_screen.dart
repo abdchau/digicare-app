@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 // import '../blocs/login_provider.dart';
 import '../blocs/login_bloc.dart';
-import 'package:provider/provider.dart';
 
 class LoginScreen extends StatelessWidget {
   @override
@@ -12,6 +12,8 @@ class LoginScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Login'),
+        elevation: .1,
+        backgroundColor: const Color.fromRGBO(49, 87, 110, 1.0),
       ),
       body: Container(
         margin: const EdgeInsets.all(20),

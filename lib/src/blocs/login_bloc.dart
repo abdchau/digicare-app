@@ -1,7 +1,7 @@
 import 'package:rxdart/rxdart.dart';
 import 'package:flutter/material.dart';
 
-import '../../mixins/validators.dart';
+import '../mixins/validators.dart';
 
 class LoginBloc with Validator {
   final _email = BehaviorSubject<String>();
