@@ -1,4 +1,4 @@
-import 'package:digicare/src/screens/data_display_screen.dart';
+import 'package:digicare/src/screens/sensor_display_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -34,7 +34,7 @@ class App extends StatelessWidget {
       return MaterialPageRoute(
         builder: (BuildContext context) {
           return Provider<SensorBloc>(
-            create: (BuildContext context) => SensorBloc(),
+            create: (BuildContext context) => SensorBloc("dingdong"),
             child: DashboardScreen(),
           );
         },
@@ -42,7 +42,7 @@ class App extends StatelessWidget {
     } else {
       return MaterialPageRoute(
         builder: (BuildContext context) {
-          return DataDisplayScreen();
+          return SensorDisplayScreen();
         },
       );
     }

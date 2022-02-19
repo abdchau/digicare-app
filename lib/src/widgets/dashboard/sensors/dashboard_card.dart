@@ -6,7 +6,7 @@ Widget makeDashboardItem(String title, IconData icon, BuildContext context) {
     decoration: const BoxDecoration(color: Color.fromRGBO(220, 220, 220, 1.0)),
     child: InkWell(
       onTap: () {
-        Navigator.pop(context);
+        Navigator.pushNamed(context, "/dashboard/sensordata");
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,

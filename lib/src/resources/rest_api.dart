@@ -25,33 +25,42 @@ class RestAPI {
   Future<UserModel> fetchUser(String jwt, String email) async {
     // if (email.compareTo("sajeel@coolboi.com") == 0 &&
     //     password.compareTo("dingdong") == 0) {
-    int userID = 1;
-    if (userID == 1) {
-      return Future.delayed(
-        const Duration(seconds: 3),
-        () => UserModel(
-          firstName: "Sajeel",
-          lastName: "Hassan",
-          email: "sajeel@coolboi.com",
-          password: "dingdong",
-          phoneNo: "12345678",
-          cnic: "611014582215",
-          age: 22,
-        ),
-      );
-    } else {
-      return Future.delayed(
-        const Duration(seconds: 3),
-        () => UserModel(
-          firstName: "Hamza",
-          lastName: "Hassan",
-          email: "sajeel@coolboi.com",
-          password: "dingdong",
-          phoneNo: "12345678",
-          cnic: "611014582215",
-          age: 22,
-        ),
-      );
-    }
+
+    Response response = await client.get(
+      Uri.parse("$_hostAddress/users/email/$email"),
+      headers: <String, String>{
+        "Authorization": "Bearer $jwt",
+      },
+    );
+
+    return UserModel.fromJson(json.decode(response.body));
+    // int userID = 1;
+    // if (userID == 1) {
+    //   return Future.delayed(
+    //     const Duration(seconds: 3),
+    //     () => UserModel(
+    //       firstName: "Sajeel",
+    //       lastName: "Hassan",
+    //       email: "sajeel@coolboi.com",
+    //       password: "dingdong",
+    //       phoneNo: "12345678",
+    //       cnic: "611014582215",
+    //       age: 22,
+    //     ),
+    //   );
+    // } else {
+    //   return Future.delayed(
+    //     const Duration(seconds: 3),
+    //     () => UserModel(
+    //       firstName: "Hamza",
+    //       lastName: "Hassan",
+    //       email: "sajeel@coolboi.com",
+    //       password: "dingdong",
+    //       phoneNo: "12345678",
+    //       cnic: "611014582215",
+    //       age: 22,
+    //     ),
+    //   );
+    // }
   }
 }

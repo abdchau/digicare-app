@@ -7,6 +7,7 @@ class UserData extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 2.0),
       child: GridView.count(
+        shrinkWrap: true,
         crossAxisCount: 2,
         padding: const EdgeInsets.all(3.0),
         children: <Widget>[

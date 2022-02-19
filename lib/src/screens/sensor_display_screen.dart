@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class DataDisplayScreen extends StatelessWidget {
+class SensorDisplayScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
