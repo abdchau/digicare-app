@@ -8,7 +8,15 @@ class UserBloc {
   final _userFetch = BehaviorSubject<int>();
   late Stream<Future<UserModel>> _user;
   final _api = RestAPI();
-  int _count = 0;
+  late String _jwt, _email;
+
+  set setJWT(String jwt) {
+    _jwt = jwt;
+  }
+
+  set setEmail(String email) {
+    _email = email;
+  }
 
   UserBloc() {
     _user = _userFetch.stream.transform(_userTransformer());
@@ -23,10 +31,9 @@ class UserBloc {
   StreamTransformer<int, Future<UserModel>> _userTransformer() {
     return StreamTransformer<int, Future<UserModel>>.fromHandlers(
       handleData: (int userID, sink) {
-        print("Here $_count");
-        final _user = _api.loginAndFetchUser(_count);
+        print("IN USERTRANSFORMER");
+        final _user = _api.fetchUser(_jwt, _email);
         sink.add(_user);
-        _count++;
       },
     );
   }

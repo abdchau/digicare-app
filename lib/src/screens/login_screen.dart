@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 // import '../blocs/login_provider.dart';
 import '../blocs/login_bloc.dart';
+import '../blocs/user_bloc.dart';
 
 class LoginScreen extends StatelessWidget {
   @override
@@ -70,7 +71,8 @@ class LoginScreen extends StatelessWidget {
           return ElevatedButton(
             onPressed: snapshot.hasData
                 ? () {
-                    bloc.submit(context);
+                    bloc.submit(
+                        context, Provider.of<UserBloc>(context, listen: false));
                   }
                 : null,
             child: const Text('Submit'),

@@ -1,9 +1,13 @@
 import 'package:rxdart/rxdart.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
+import 'user_bloc.dart';
+import '../resources/rest_api.dart';
 import '../mixins/validators.dart';
 
 class LoginBloc with Validator {
+  final _api = RestAPI();
   final _email = BehaviorSubject<String>();
   final _password = BehaviorSubject<String>();
 
@@ -17,10 +21,27 @@ class LoginBloc with Validator {
   CombineLatestStream<dynamic, bool> get submitValid =>
       CombineLatestStream.combine2(emailStream, passwordStream, (e, p) => true);
 
-  void submit(BuildContext context) {
+  void submit(BuildContext context, UserBloc userBloc) async {
     final validEmail = _email.value;
     final validPassword = _password.value;
     print("Off to the API with $validEmail, $validPassword");
+
+    String? JWT = await _api.authenticate(validEmail, validPassword);
+    if (JWT == null) {
+      Fluttertoast.showToast(
+        msg: "Email/password is incorrect. Try again.",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+      return;
+    }
+
+    userBloc.setJWT = JWT;
+    userBloc.setEmail = validEmail;
     Navigator.pushNamed(context, "/dashboard");
   }
 }

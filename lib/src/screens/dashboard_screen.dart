@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../blocs/user_bloc.dart';
 import '../models/user_model.dart';
+import '../widgets/profile_widget.dart';
 
 class DashboardScreen extends StatelessWidget {
   @override
@@ -18,33 +19,7 @@ class DashboardScreen extends StatelessWidget {
         elevation: .1,
         backgroundColor: const Color.fromRGBO(49, 87, 110, 1.0),
       ),
-      body: Center(
-        child: UserData(), //userWidget(bloc),
-      ),
-    );
-  }
-
-  Widget userWidget(UserBloc bloc) {
-    return StreamBuilder(
-      stream: bloc.userStream,
-      builder:
-          (BuildContext context, AsyncSnapshot<Future<UserModel>> snapshot) {
-        print("IN STREAMBUILDER");
-        if (!snapshot.hasData) {
-          return const CircularProgressIndicator();
-        }
-        return FutureBuilder(
-          future: snapshot.data!,
-          builder:
-              (BuildContext context, AsyncSnapshot<UserModel> userSnapshot) {
-            print("IN FUTUREBUILDER");
-            if (!userSnapshot.hasData) {
-              return const CircularProgressIndicator();
-            }
-            return Text(userSnapshot.data!.firstName);
-          },
-        );
-      },
+      body: ProfileWidget(), //userWidget(bloc),
     );
   }
 }

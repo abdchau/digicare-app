@@ -1,41 +1,34 @@
 import 'package:flutter/material.dart';
 
+import 'data_rows.dart';
+
 var _montserrat = const TextStyle(
   fontSize: 12,
+  fontFamily: "Consolas",
 );
 
-class ProfileScreen extends StatelessWidget {
+class ProfileWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Material(
+    return Container(
+      margin: const EdgeInsets.only(top: 45),
+      padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Container(
-        height: double.infinity,
-        width: double.infinity,
-        decoration: const BoxDecoration(
-          color: Colors.blue,
+        constraints: const BoxConstraints(maxWidth: 400),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
         ),
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Container(
-              constraints: const BoxConstraints(maxWidth: 400),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  nameAndAvatar(),
-                  userDetails(),
-                  const SizedBox(height: 40),
-                  metricsRow(),
-                  const SizedBox(height: 8)
-                ],
-              ),
-            ),
-          ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            nameAndAvatar(),
+            userDetails(),
+            const SizedBox(height: 40),
+            metricsRow(),
+            const SizedBox(height: 8)
+          ],
         ),
       ),
     );
@@ -66,8 +59,8 @@ class ProfileScreen extends StatelessWidget {
               children: [
                 const CircleAvatar(
                   radius: 50,
-                  backgroundImage: NetworkImage(
-                      "https://www.facebook.com/photo/?fbid=4376464835776477&set=a.332398806849787"),
+                  foregroundImage: NetworkImage(
+                      "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"),
                 ),
                 const SizedBox(width: 20),
                 Column(
@@ -82,7 +75,7 @@ class ProfileScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 8),
                     Text(
-                      "Flutter Explained",
+                      "AIDS Victim",
                       style: TextStyle(
                         fontSize: 20,
                         // color: darkColor,
@@ -101,16 +94,16 @@ class ProfileScreen extends StatelessWidget {
 
   Widget userDetails() {
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 16,
-        vertical: 30,
+      padding: const EdgeInsets.only(
+        left: 16,
+        top: 30,
       ),
-      child: Column(
-        children: [
-          dataRow("Twitter Account", "@sjwalker"),
-          dataRow("Github Account", "walker-syed"),
-          dataRow("Official Start", "28.01.2020"),
-          dataRow("Occupation", "Sn. Software Engg"),
+      child: DataRows(
+        const <List<String>>[
+          ["Twitter Account", "@sjwalker"],
+          ["Github Account", "walker-syed"],
+          ["Official Start", "28.01.2020"],
+          ["Occupation", "Sn. Software Engg"],
         ],
       ),
     );
@@ -118,7 +111,7 @@ class ProfileScreen extends StatelessWidget {
 
   Widget dataRow(String label, String value) {
     return Container(
-      // width: 300,
+      width: 280,
       color: Colors.amber,
       child: Row(
         mainAxisSize: MainAxisSize.max,

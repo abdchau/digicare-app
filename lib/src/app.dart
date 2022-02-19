@@ -1,4 +1,4 @@
-import 'package:digicare/src/widgets/profile_widget.dart';
+import 'package:digicare/src/screens/data_display_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -30,13 +30,19 @@ class App extends StatelessWidget {
           );
         },
       );
-    } else {
+    } else if (settings.name == '/dashboard') {
       return MaterialPageRoute(
         builder: (BuildContext context) {
           return Provider<SensorBloc>(
             create: (BuildContext context) => SensorBloc(),
-            child: ProfileScreen(),
+            child: DashboardScreen(),
           );
+        },
+      );
+    } else {
+      return MaterialPageRoute(
+        builder: (BuildContext context) {
+          return DataDisplayScreen();
         },
       );
     }
