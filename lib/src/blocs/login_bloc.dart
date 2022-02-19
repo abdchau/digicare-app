@@ -26,8 +26,8 @@ class LoginBloc with Validator {
     final validPassword = _password.value;
     print("Off to the API with $validEmail, $validPassword");
 
-    String? JWT = await _api.authenticate(validEmail, validPassword);
-    if (JWT == null) {
+    String? jwt = await _api.authenticate(validEmail, validPassword);
+    if (jwt == null) {
       Fluttertoast.showToast(
         msg: "Email/password is incorrect. Try again.",
         toastLength: Toast.LENGTH_SHORT,
@@ -40,7 +40,7 @@ class LoginBloc with Validator {
       return;
     }
 
-    userBloc.setJWT = JWT;
+    userBloc.setJWT = jwt;
     userBloc.setEmail = validEmail;
     Navigator.pushNamed(context, "/dashboard");
   }

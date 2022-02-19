@@ -1,3 +1,5 @@
 class SensorBloc {
-  String _sensor = "";
+  late final String _sensor;
+
+  SensorBloc(String sensor) : _sensor = sensor;
 }
