@@ -19,29 +19,37 @@ class DashboardScreen extends StatelessWidget {
         elevation: .1,
         backgroundColor: const Color.fromRGBO(49, 87, 110, 1.0),
       ),
-      body: ListView(
-        scrollDirection: Axis.vertical,
-        children: [
-          ProfileWidget(),
-          UserData(),
-        ],
-        padding: EdgeInsets.all(10),
+      body: StreamBuilder(
+        stream: bloc.userStream,
+        builder:
+            (BuildContext context, AsyncSnapshot<Future<UserModel>> snapshot) {
+          if (!snapshot.hasData) {
+            return const Center(
+              child: Text("LOADING USER"),
+            );
+          }
+          return FutureBuilder(
+            future: snapshot.data,
+            builder:
+                (BuildContext context, AsyncSnapshot<UserModel> userSnapshot) {
+              if (!userSnapshot.hasData) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+
+              return ListView(
+                scrollDirection: Axis.vertical,
+                children: [
+                  ProfileWidget(userSnapshot.data!),
+                  UserData(),
+                ],
+                padding: const EdgeInsets.all(10),
+              );
+            },
+          );
+        },
       ),
     );
-  }
-
-  List<Widget> getchildren(int num) {
-    return <Widget>[ProfileWidget(), UserData()];
-    List<Widget> list = [];
-    for (int i = 0; i < num; i++) {
-      list.add(
-        Card(
-          child: ListTile(
-            title: Text("List Item $i"),
-          ),
-        ),
-      );
-    }
-    return list;
   }
 }

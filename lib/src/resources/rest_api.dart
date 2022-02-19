@@ -14,8 +14,8 @@ class RestAPI {
       headers: <String, String>{"Content-Type": "application/json"},
       body: '{"email": "$email","password": "$password"}',
     );
-
-    if (response.statusCode == 403) {
+    print(response.statusCode);
+    if (response.statusCode == 403 || response.statusCode == 404) {
       return null;
     }
 
@@ -32,8 +32,10 @@ class RestAPI {
         "Authorization": "Bearer $jwt",
       },
     );
-
-    return UserModel.fromJson(json.decode(response.body));
+    print(response.body);
+    final user = UserModel.fromJson(json.decode(response.body));
+    print(user);
+    return user;
     // int userID = 1;
     // if (userID == 1) {
     //   return Future.delayed(

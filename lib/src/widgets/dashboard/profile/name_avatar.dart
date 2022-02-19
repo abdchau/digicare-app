@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-// import '../../../models/user_model.dart';
+import '../../../models/user_model.dart';
 
 class NameAndAvatar extends StatelessWidget {
-  // final UserModel user;
-  // NameAndAvatar({required this.user});
+  final UserModel user;
+  NameAndAvatar(this.user);
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,7 @@ class NameAndAvatar extends StatelessWidget {
           ClipPath(
             clipper: AvatarClipper(),
             child: Container(
-              height: 100,
+              height: 80,
               decoration: const BoxDecoration(
                 // color: darkColor,
                 borderRadius: BorderRadius.only(
@@ -27,7 +27,7 @@ class NameAndAvatar extends StatelessWidget {
           ),
           Positioned(
             left: 11,
-            top: 50,
+            top: 30,
             child: Row(
               children: [
                 const CircleAvatar(
@@ -38,23 +38,23 @@ class NameAndAvatar extends StatelessWidget {
                 const SizedBox(width: 20),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
+                  children: [
                     Text(
-                      "Sajeel Hassan",
-                      style: TextStyle(
+                      "${user.firstName} ${user.lastName}",
+                      style: const TextStyle(
                         fontSize: 32,
                         color: Colors.black,
                       ),
                     ),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     Text(
-                      "AIDS Victim",
-                      style: TextStyle(
+                      user.email,
+                      style: const TextStyle(
                         fontSize: 20,
                         // color: darkColor,
                       ),
                     ),
-                    SizedBox(height: 8)
+                    const SizedBox(height: 8)
                   ],
                 )
               ],

@@ -17,7 +17,12 @@ class UserModel {
         lastName = parsedJson['lastName'] ?? "NO NAME FROM API",
         email = parsedJson['email'] ?? "NO EMAIL FROM API",
         password = parsedJson['password'] ?? "NO PASSWORD FROM API",
-        phoneNo = parsedJson['phoneNo'] ?? "NO PHONENO FROM API",
+        phoneNo = parsedJson['phone_no'] ?? "NO PHONENO FROM API",
         cnic = parsedJson['cnic'] ?? "NO CNIC FROM API",
         age = parsedJson['age'] ?? -9999;
+
+  @override
+  String toString() {
+    return "$firstName, $lastName, $email, $password, $phoneNo, $cnic, $age";
+  }
 }

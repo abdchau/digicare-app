@@ -1,3 +1,4 @@
+import 'package:digicare/src/models/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart' show Provider;
 
@@ -11,6 +12,10 @@ var _montserrat = const TextStyle(
 );
 
 class ProfileWidget extends StatelessWidget {
+  final UserModel user;
+
+  ProfileWidget(this.user);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -26,9 +31,9 @@ class ProfileWidget extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            NameAndAvatar(),
+            NameAndAvatar(user),
             userDetails(),
-            const SizedBox(height: 40),
+            const SizedBox(height: 8),
             metricsRow(),
             const SizedBox(height: 8)
           ],
@@ -41,7 +46,6 @@ class ProfileWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(
         left: 16,
-        top: 30,
       ),
       child: DataRows(
         const <List<String>>[
