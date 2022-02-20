@@ -18,8 +18,8 @@ class UserData extends StatelessWidget {
           makeDashboardItem("ECG", Icons.health_and_safety_sharp, context),
           makeDashboardItem(
               "Blood Pressure", Icons.health_and_safety_rounded, context),
-          makeDashboardItem("Alphabet", Icons.alarm, context),
-          makeDashboardItem("Alphabet", Icons.alarm, context)
+          makeDashboardItem("Temperature", Icons.thermostat, context),
+          makeDashboardItem("Blood Sugar", Icons.dashboard_outlined, context)
         ],
       ),
     );

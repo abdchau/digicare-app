@@ -1,16 +1,24 @@
+import 'dart:convert' show json;
+
+import 'address_model.dart';
+
 class UserModel {
   String firstName, lastName, email, password, phoneNo, cnic;
+  // DateTime dob;
+  AddressModel address;
   int age;
 
-  UserModel({
-    required this.firstName,
-    required this.lastName,
-    required this.email,
-    required this.password,
-    required this.phoneNo,
-    required this.cnic,
-    required this.age,
-  });
+  UserModel(
+    this.firstName,
+    this.lastName,
+    this.email,
+    this.password,
+    this.phoneNo,
+    this.cnic,
+    // this.dob,
+    this.address,
+    this.age,
+  );
 
   UserModel.fromJson(Map<String, dynamic> parsedJson)
       : firstName = parsedJson['firstName'] ?? "NO NAME FROM API",
@@ -19,10 +27,11 @@ class UserModel {
         password = parsedJson['password'] ?? "NO PASSWORD FROM API",
         phoneNo = parsedJson['phone_no'] ?? "NO PHONENO FROM API",
         cnic = parsedJson['cnic'] ?? "NO CNIC FROM API",
+        address = AddressModel.fromJson(parsedJson['address']),
         age = parsedJson['age'] ?? -9999;
 
   @override
   String toString() {
-    return "$firstName, $lastName, $email, $password, $phoneNo, $cnic, $age";
+    return "$firstName, $lastName, $email, $password, $phoneNo, $cnic, $age, $address";
   }
 }

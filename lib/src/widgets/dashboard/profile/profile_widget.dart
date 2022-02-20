@@ -1,8 +1,7 @@
-import 'package:digicare/src/models/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart' show Provider;
 
-import '../../../blocs/user_bloc.dart';
+import '../../../models/user_model.dart';
 import 'name_avatar.dart';
 import 'data_rows.dart';
 
@@ -32,7 +31,7 @@ class ProfileWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             NameAndAvatar(user),
-            userDetails(),
+            userDetails(user),
             const SizedBox(height: 8),
             metricsRow(),
             const SizedBox(height: 8)
@@ -42,17 +41,17 @@ class ProfileWidget extends StatelessWidget {
     );
   }
 
-  Widget userDetails() {
+  Widget userDetails(UserModel user) {
     return Padding(
       padding: const EdgeInsets.only(
         left: 16,
       ),
       child: DataRows(
-        const <List<String>>[
-          ["Twitter Account", "@sjwalker"],
-          ["Github Account", "walker-syed"],
-          ["Official Start", "28.01.2020"],
-          ["Occupation", "Sn. Software Engg"],
+        <List<String>>[
+          ["Age", "${user.age}"],
+          ["Phone", user.phoneNo],
+          ["Address", "${user.address}"],
+          ["CNIC", user.cnic],
         ],
       ),
     );

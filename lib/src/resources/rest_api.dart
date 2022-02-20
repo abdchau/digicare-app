@@ -15,7 +15,7 @@ class RestAPI {
       body: '{"email": "$email","password": "$password"}',
     );
     print(response.statusCode);
-    if (response.statusCode == 403 || response.statusCode == 404) {
+    if (response.statusCode != 200) {
       return null;
     }
 
@@ -32,8 +32,9 @@ class RestAPI {
         "Authorization": "Bearer $jwt",
       },
     );
-    print(response.body);
+    print("${response.body} HEREEE");
     final user = UserModel.fromJson(json.decode(response.body));
+    print("hi");
     print(user);
     return user;
     // int userID = 1;
