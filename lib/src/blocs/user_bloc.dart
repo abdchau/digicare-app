@@ -8,14 +8,19 @@ class UserBloc {
   final _userFetch = BehaviorSubject<int>();
   late Stream<Future<UserModel>> _user;
   final _api = RestAPI();
-  late String _jwt, _email;
+  late String jwt, _email;
+  late int _id;
 
   set setJWT(String jwt) {
-    _jwt = jwt;
+    this.jwt = jwt;
   }
 
   set setEmail(String email) {
     _email = email;
+  }
+
+  set setID(int id) {
+    _id = id;
   }
 
   UserBloc() {
@@ -32,7 +37,7 @@ class UserBloc {
     return StreamTransformer<int, Future<UserModel>>.fromHandlers(
       handleData: (int userID, sink) {
         print("IN USERTRANSFORMER");
-        final _user = _api.fetchUser(_jwt, _email);
+        final _user = _api.fetchUser(jwt, _email);
         sink.add(_user);
       },
     );

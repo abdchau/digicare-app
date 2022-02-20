@@ -1,20 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart' show Provider;
+import 'package:shimmer/shimmer.dart';
 
 import '../../../models/user_model.dart';
-import 'name_avatar.dart';
-import 'data_rows.dart';
+import 'name_avatar_loading.dart';
 
 var _montserrat = const TextStyle(
   fontSize: 12,
   fontFamily: "Consolas",
 );
 
-class ProfileWidget extends StatelessWidget {
-  final UserModel user;
-
-  ProfileWidget(this.user);
-
+class ProfileWidgetLoading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -30,9 +26,9 @@ class ProfileWidget extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            NameAndAvatar(user),
-            userDetails(user),
-            const SizedBox(height: 16),
+            NameAndAvatarLoading(),
+            userDetailsLoading(),
+            const SizedBox(height: 8),
             // metricsRow(),
             // const SizedBox(height: 8)
           ],
@@ -41,20 +37,29 @@ class ProfileWidget extends StatelessWidget {
     );
   }
 
-  Widget userDetails(UserModel user) {
+  Widget userDetailsLoading() {
     return Padding(
       padding: const EdgeInsets.only(
         left: 16,
       ),
-      child: DataRows(
-        <List<String>>[
-          ["Age", "${user.age}"],
-          ["Phone", user.phoneNo],
-          ["Address", "${user.address}"],
-          ["CNIC", user.cnic],
-        ],
-      ),
+      child: rowsLoading(4),
     );
+  }
+
+  Widget rowsLoading(int rows) {
+    List<Widget> children = <Widget>[];
+    for (int i = 0; i < rows; i++) {
+      children.add(
+        Container(
+          height: 10,
+          width: 300,
+          color: const Color(0xFFEEEEEE),
+        ),
+      );
+      children.add(const SizedBox(height: 2));
+    }
+
+    return Column(children: children);
   }
 
   Widget metricsRow() {

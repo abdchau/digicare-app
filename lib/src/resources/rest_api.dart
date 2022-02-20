@@ -1,4 +1,6 @@
 import 'dart:convert' show json;
+import 'package:digicare/src/models/reading_model.dart';
+import 'package:digicare/src/models/sensor_model.dart';
 import 'package:http/http.dart';
 // import 'package:http/testing.dart';
 
@@ -14,6 +16,7 @@ class RestAPI {
       headers: <String, String>{"Content-Type": "application/json"},
       body: '{"email": "$email","password": "$password"}',
     );
+
     print(response.statusCode);
     if (response.statusCode != 200) {
       return null;
@@ -23,47 +26,46 @@ class RestAPI {
   }
 
   Future<UserModel> fetchUser(String jwt, String email) async {
-    // if (email.compareTo("sajeel@coolboi.com") == 0 &&
-    //     password.compareTo("dingdong") == 0) {
-
+    await Future.delayed(const Duration(seconds: 2));
     Response response = await client.get(
       Uri.parse("$_hostAddress/users/email/$email"),
       headers: <String, String>{
         "Authorization": "Bearer $jwt",
       },
     );
-    print("${response.body} HEREEE");
+    print("${response.body} USER API");
     final user = UserModel.fromJson(json.decode(response.body));
-    print("hi");
     print(user);
     return user;
-    // int userID = 1;
-    // if (userID == 1) {
-    //   return Future.delayed(
-    //     const Duration(seconds: 3),
-    //     () => UserModel(
-    //       firstName: "Sajeel",
-    //       lastName: "Hassan",
-    //       email: "sajeel@coolboi.com",
-    //       password: "dingdong",
-    //       phoneNo: "12345678",
-    //       cnic: "611014582215",
-    //       age: 22,
-    //     ),
-    //   );
-    // } else {
-    //   return Future.delayed(
-    //     const Duration(seconds: 3),
-    //     () => UserModel(
-    //       firstName: "Hamza",
-    //       lastName: "Hassan",
-    //       email: "sajeel@coolboi.com",
-    //       password: "dingdong",
-    //       phoneNo: "12345678",
-    //       cnic: "611014582215",
-    //       age: 22,
-    //     ),
-    //   );
-    // }
+  }
+
+  Future<List<SensorModel>> fetchAllSensors(String jwt) async {
+    Response response = await client.get(
+      Uri.parse("$_hostAddress/sensors"),
+      headers: <String, String>{
+        "Authorization": "Bearer $jwt",
+      },
+    );
+    print(response.body);
+    final List list = json.decode(response.body)['_embedded']['sensorList'];
+    final ret = SensorModel.list(list);
+    print("$ret SENSOR API");
+    return ret;
+  }
+
+  Future<List<ReadingModel>> fetchSensorReadings(
+      String jwt, int patientID, int sensorID) async {
+    Response response = await client.get(
+      Uri.parse("$_hostAddress/readings/$patientID/$sensorID"),
+      headers: <String, String>{
+        "Authorization": "Bearer $jwt",
+      },
+    );
+    print(response.body);
+    final List list =
+        json.decode(response.body)['_embedded']['sensorPatientDataList'];
+    final ret = ReadingModel.list(list);
+    print("$ret SENSOR API");
+    return ret;
   }
 }

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+
 import 'dashboard_card.dart';
 
-class UserData extends StatelessWidget {
+class DashboardSensors extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(

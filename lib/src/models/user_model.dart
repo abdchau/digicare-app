@@ -6,7 +6,7 @@ class UserModel {
   String firstName, lastName, email, password, phoneNo, cnic;
   // DateTime dob;
   AddressModel address;
-  int age;
+  int id, age;
 
   UserModel(
     this.firstName,
@@ -17,6 +17,7 @@ class UserModel {
     this.cnic,
     // this.dob,
     this.address,
+    this.id,
     this.age,
   );
 
@@ -28,10 +29,11 @@ class UserModel {
         phoneNo = parsedJson['phone_no'] ?? "NO PHONENO FROM API",
         cnic = parsedJson['cnic'] ?? "NO CNIC FROM API",
         address = AddressModel.fromJson(parsedJson['address']),
+        id = parsedJson['id'] ?? -999,
         age = parsedJson['age'] ?? -9999;
 
   @override
   String toString() {
-    return "$firstName, $lastName, $email, $password, $phoneNo, $cnic, $age, $address";
+    return "$id, $firstName, $lastName, $email, $password, $phoneNo, $cnic, $age, $address";
   }
 }

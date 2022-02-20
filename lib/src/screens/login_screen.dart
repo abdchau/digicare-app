@@ -17,13 +17,17 @@ class LoginScreen extends StatelessWidget {
         backgroundColor: const Color.fromRGBO(49, 87, 110, 1.0),
       ),
       body: Container(
-        margin: const EdgeInsets.all(20),
-        child: Column(
-          children: [
-            emailField(bloc),
-            passwordField(bloc),
-            submitButton(bloc, context),
-          ],
+        height: double.infinity,
+        padding: const EdgeInsets.all(20),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Image.asset("assets/login_cover.jpg", height: 200),
+              emailField(bloc),
+              passwordField(bloc),
+              submitButton(bloc, context),
+            ],
+          ),
         ),
       ),
     );
