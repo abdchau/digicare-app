@@ -18,9 +18,6 @@ class DashboardScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     // return Dashboard();
     UserBloc userBloc = Provider.of<UserBloc>(context);
-    userBloc.fetchUser(1);
-    SensorBloc sensorBloc = Provider.of<SensorBloc>(context);
-    sensorBloc.fetchSensors(userBloc.jwt);
 
     return Scaffold(
       appBar: AppBar(
@@ -48,7 +45,7 @@ class DashboardScreen extends StatelessWidget {
               } else {
                 children.add(profile(userSnapshot.data!));
               }
-              children.add(sensors(sensorBloc));
+              children.add(sensors(context));
 
               return ListView(
                 scrollDirection: Axis.vertical,
@@ -66,26 +63,30 @@ class DashboardScreen extends StatelessWidget {
     return ProfileWidget(user);
   }
 
-  Widget sensors(SensorBloc sensorBloc) {
+  Widget sensors(BuildContext context) {
+    SensorBloc sensorBloc = Provider.of<SensorBloc>(context);
+
     return StreamBuilder(
-        stream: sensorBloc.sensorsStream,
-        builder: (BuildContext context,
-            AsyncSnapshot<Future<List<SensorModel>>> snapshot) {
-          if (!snapshot.hasData) {
-            return const Center(
-              child: Text("LOADING USER"),
-            );
-          }
-          return FutureBuilder(
-              future: snapshot.data,
-              builder: (BuildContext context,
-                  AsyncSnapshot<List<SensorModel>> sensorsSnapshot) {
-                if (!sensorsSnapshot.hasData) {
-                  return loadingSensors();
-                }
-                return DashboardSensors(sensorsSnapshot.data!);
-              });
-        });
+      stream: sensorBloc.sensorsStream,
+      builder: (BuildContext context,
+          AsyncSnapshot<Future<List<SensorModel>>> snapshot) {
+        if (!snapshot.hasData) {
+          return const Center(
+            child: Text("LOADING USER"),
+          );
+        }
+        return FutureBuilder(
+          future: snapshot.data,
+          builder: (BuildContext context,
+              AsyncSnapshot<List<SensorModel>> sensorsSnapshot) {
+            if (!sensorsSnapshot.hasData) {
+              return loadingSensors();
+            }
+            return DashboardSensors(sensorsSnapshot.data!);
+          },
+        );
+      },
+    );
   }
 
   Widget loadingProfile() {

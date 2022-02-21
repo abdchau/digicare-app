@@ -36,6 +36,10 @@ class App extends StatelessWidget {
     } else if (settings.name == '/dashboard') {
       return MaterialPageRoute(
         builder: (BuildContext context) {
+          UserBloc userBloc = Provider.of<UserBloc>(context);
+          userBloc.fetchUser(1);
+          SensorBloc sensorBloc = Provider.of<SensorBloc>(context);
+          sensorBloc.fetchSensors(userBloc.jwt);
           return DashboardScreen();
         },
       );
