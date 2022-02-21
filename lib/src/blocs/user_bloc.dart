@@ -9,7 +9,7 @@ class UserBloc {
   late Stream<Future<UserModel>> _user;
   final _api = RestAPI();
   late String jwt, _email;
-  late int _id;
+  late int id;
 
   set setJWT(String jwt) {
     this.jwt = jwt;
@@ -20,10 +20,11 @@ class UserBloc {
   }
 
   set setID(int id) {
-    _id = id;
+    this.id = id;
   }
 
   UserBloc() {
+    print("USERBLOC INIT");
     _user = _userFetch.stream.transform(_userTransformer());
   }
 

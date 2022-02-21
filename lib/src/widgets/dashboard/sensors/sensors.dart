@@ -4,7 +4,7 @@ import '../../../models/sensor_model.dart';
 import 'sensor_item.dart';
 
 class DashboardSensors extends StatelessWidget {
-  late List<SensorModel> sensors;
+  List<SensorModel> sensors;
 
   DashboardSensors(this.sensors);
 

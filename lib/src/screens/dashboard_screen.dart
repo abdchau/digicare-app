@@ -43,6 +43,7 @@ class DashboardScreen extends StatelessWidget {
               if (!userSnapshot.hasData) {
                 children.add(loadingProfile());
               } else {
+                userBloc.id = userSnapshot.data!.id;
                 children.add(profile(userSnapshot.data!));
               }
               children.add(sensors(context));

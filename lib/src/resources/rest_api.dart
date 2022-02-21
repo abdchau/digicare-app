@@ -58,7 +58,7 @@ class RestAPI {
       String jwt, int patientID, int sensorID) async {
     await Future.delayed(const Duration(milliseconds: 2500));
     Response response = await client.get(
-      Uri.parse("$_hostAddress/readings/$patientID/$sensorID"),
+      Uri.parse("$_hostAddress/readings/patient/$patientID/$sensorID"),
       headers: <String, String>{
         "Authorization": "Bearer $jwt",
       },
@@ -67,7 +67,7 @@ class RestAPI {
     final List list =
         json.decode(response.body)['_embedded']['sensorPatientDataList'];
     final ret = ReadingModel.list(list);
-    print("$ret SENSOR API");
+    print("$ret SENSOR READING API");
     return ret;
   }
 }

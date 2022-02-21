@@ -46,6 +46,17 @@ class App extends StatelessWidget {
     } else {
       return MaterialPageRoute(
         builder: (BuildContext context) {
+          UserBloc userBloc = Provider.of<UserBloc>(context);
+          SensorBloc sensorBloc = Provider.of<SensorBloc>(context);
+          print(settings.name!.substring(12));
+          sensorBloc.fetchReadings(
+            <String, dynamic>{
+              'jwt': userBloc.jwt,
+              'patientID': userBloc.id,
+              'sensorID': int.parse(settings.name!.substring(12)),
+            },
+          );
+
           return SensorDisplayScreen();
         },
       );
