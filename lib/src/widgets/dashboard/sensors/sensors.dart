@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 
+import '../../../models/sensor_model.dart';
 import 'dashboard_card.dart';
 
 class DashboardSensors extends StatelessWidget {
+  late List<SensorModel> sensors;
+
+  DashboardSensors(this.sensors);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -12,17 +17,18 @@ class DashboardSensors extends StatelessWidget {
         shrinkWrap: true,
         crossAxisCount: 2,
         padding: const EdgeInsets.all(3.0),
-        children: <Widget>[
-          makeDashboardItem("SPO2", Icons.health_and_safety, context),
-          makeDashboardItem(
-              "Heart Rate", Icons.health_and_safety_outlined, context),
-          makeDashboardItem("ECG", Icons.health_and_safety_sharp, context),
-          makeDashboardItem(
-              "Blood Pressure", Icons.health_and_safety_rounded, context),
-          makeDashboardItem("Temperature", Icons.thermostat, context),
-          makeDashboardItem("Blood Sugar", Icons.dashboard_outlined, context)
-        ],
+        children: getDashboardItems(context),
       ),
     );
+  }
+
+  List<Widget> getDashboardItems(BuildContext context) {
+    List<Widget> children = <Widget>[];
+    for (SensorModel sensor in sensors) {
+      children.add(
+          makeDashboardItem(sensor.dataDesc, Icons.health_and_safety, context));
+    }
+
+    return children;
   }
 }

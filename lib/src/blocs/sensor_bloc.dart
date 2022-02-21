@@ -1,16 +1,34 @@
-import 'package:digicare/src/models/reading_model.dart';
-import 'package:digicare/src/models/sensor_model.dart';
+import 'package:flutter/rendering.dart';
+import 'dart:async' show StreamTransformer;
+import 'package:rxdart/rxdart.dart';
 
+import '../models/reading_model.dart';
+import '../models/sensor_model.dart';
 import '../resources/rest_api.dart';
 
 class SensorBloc {
-  late final String _sensor;
+  final _sensorsFetch = BehaviorSubject<String>();
+  late Stream<Future<List<SensorModel>>> _sensor;
   final _api = RestAPI();
 
-  SensorBloc(String sensor) : _sensor = sensor;
+  SensorBloc() {
+    _sensor = _sensorsFetch.stream.transform(_sensorTransformer());
+  }
 
-  Future<List<SensorModel>> fetchAllSensors(String jwt) async {
-    return _api.fetchAllSensors(jwt);
+  // getters to streams
+  Stream<Future<List<SensorModel>>> get sensorsStream => _sensor;
+
+  // getters to sinks
+  void Function(String) get fetchSensors => _sensorsFetch.sink.add;
+
+  StreamTransformer<String, Future<List<SensorModel>>> _sensorTransformer() {
+    return StreamTransformer<String, Future<List<SensorModel>>>.fromHandlers(
+      handleData: (String jwt, sink) {
+        print("IN SENSORTRANSFORMER");
+        final sensors = _api.fetchAllSensors(jwt);
+        sink.add(sensors);
+      },
+    );
   }
 
   Future<List<ReadingModel>> fetchSensorReadings(

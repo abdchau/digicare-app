@@ -1,15 +1,17 @@
-import 'package:digicare/src/blocs/sensor_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../blocs/user_bloc.dart';
 import '../models/user_model.dart';
+import '../blocs/sensor_bloc.dart';
+import '../models/sensor_model.dart';
 
 import '../widgets/dashboard/profile/profile_widget.dart';
 import '../widgets/dashboard/sensors/sensors.dart';
 
 import '../widgets/dashboard/profile_loading/profile_loading.dart';
+import '../widgets/dashboard/sensors/sensors_loading.dart';
 
 class DashboardScreen extends StatelessWidget {
   @override
@@ -18,7 +20,7 @@ class DashboardScreen extends StatelessWidget {
     UserBloc userBloc = Provider.of<UserBloc>(context);
     userBloc.fetchUser(1);
     SensorBloc sensorBloc = Provider.of<SensorBloc>(context);
-    sensorBloc.fetchAllSensors(userBloc.jwt);
+    sensorBloc.fetchSensors(userBloc.jwt);
 
     return Scaffold(
       appBar: AppBar(
@@ -39,16 +41,18 @@ class DashboardScreen extends StatelessWidget {
             future: snapshot.data,
             builder:
                 (BuildContext context, AsyncSnapshot<UserModel> userSnapshot) {
+              List<Widget> children = <Widget>[];
+
               if (!userSnapshot.hasData) {
-                return loadingWidgets();
+                children.add(loadingProfile());
+              } else {
+                children.add(profile(userSnapshot.data!));
               }
+              children.add(sensors(sensorBloc));
 
               return ListView(
                 scrollDirection: Axis.vertical,
-                children: [
-                  ProfileWidget(userSnapshot.data!),
-                  DashboardSensors(),
-                ],
+                children: children,
                 padding: const EdgeInsets.all(10),
               );
             },
@@ -58,21 +62,44 @@ class DashboardScreen extends StatelessWidget {
     );
   }
 
-  Widget loadingWidgets() {
-    return ListView(
-      scrollDirection: Axis.vertical,
-      children: [
-        Shimmer(
-          child: ProfileWidgetLoading(),
-          gradient: LinearGradient(colors: <Color>[
-            Colors.grey[300]!,
-            Colors.grey[50]!,
-          ]),
-          period: const Duration(seconds: 1),
-        ),
-        DashboardSensors(),
-      ],
-      padding: const EdgeInsets.all(10),
+  Widget profile(UserModel user) {
+    return ProfileWidget(user);
+  }
+
+  Widget sensors(SensorBloc sensorBloc) {
+    return StreamBuilder(
+        stream: sensorBloc.sensorsStream,
+        builder: (BuildContext context,
+            AsyncSnapshot<Future<List<SensorModel>>> snapshot) {
+          if (!snapshot.hasData) {
+            return const Center(
+              child: Text("LOADING USER"),
+            );
+          }
+          return FutureBuilder(
+              future: snapshot.data,
+              builder: (BuildContext context,
+                  AsyncSnapshot<List<SensorModel>> sensorsSnapshot) {
+                if (!sensorsSnapshot.hasData) {
+                  return loadingSensors();
+                }
+                return DashboardSensors(sensorsSnapshot.data!);
+              });
+        });
+  }
+
+  Widget loadingProfile() {
+    return Shimmer(
+      child: ProfileWidgetLoading(),
+      gradient: LinearGradient(colors: <Color>[
+        Colors.grey[300]!,
+        Colors.grey[50]!,
+      ]),
+      period: const Duration(seconds: 1),
     );
+  }
+
+  Widget loadingSensors() {
+    return DashboardSensorsLoading();
   }
 }

@@ -40,6 +40,7 @@ class RestAPI {
   }
 
   Future<List<SensorModel>> fetchAllSensors(String jwt) async {
+    await Future.delayed(const Duration(milliseconds: 1500));
     Response response = await client.get(
       Uri.parse("$_hostAddress/sensors"),
       headers: <String, String>{
@@ -55,6 +56,7 @@ class RestAPI {
 
   Future<List<ReadingModel>> fetchSensorReadings(
       String jwt, int patientID, int sensorID) async {
+    await Future.delayed(const Duration(milliseconds: 2500));
     Response response = await client.get(
       Uri.parse("$_hostAddress/readings/$patientID/$sensorID"),
       headers: <String, String>{

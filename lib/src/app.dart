@@ -13,9 +13,12 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return Provider<UserBloc>(
       create: (BuildContext context) => UserBloc(),
-      child: MaterialApp(
-        title: 'Digicare',
-        onGenerateRoute: routes,
+      child: Provider<SensorBloc>(
+        create: (BuildContext context) => SensorBloc(),
+        child: MaterialApp(
+          title: 'Digicare',
+          onGenerateRoute: routes,
+        ),
       ),
     );
   }
@@ -33,10 +36,7 @@ class App extends StatelessWidget {
     } else if (settings.name == '/dashboard') {
       return MaterialPageRoute(
         builder: (BuildContext context) {
-          return Provider<SensorBloc>(
-            create: (BuildContext context) => SensorBloc("dingdong"),
-            child: DashboardScreen(),
-          );
+          return DashboardScreen();
         },
       );
     } else {
