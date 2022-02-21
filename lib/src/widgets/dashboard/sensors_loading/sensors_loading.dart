@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
-import 'dashboard_card.dart';
+import '../sensors_loading/sensor_item_loading.dart';
 
 final _gradient = LinearGradient(colors: <Color>[
   Colors.grey[300]!,
@@ -19,10 +19,10 @@ class DashboardSensorsLoading extends StatelessWidget {
         crossAxisCount: 2,
         padding: const EdgeInsets.all(3.0),
         children: <Widget>[
-          Shimmer(child: loadingDashItem(), gradient: _gradient),
-          Shimmer(child: loadingDashItem(), gradient: _gradient),
-          Shimmer(child: loadingDashItem(), gradient: _gradient),
-          Shimmer(child: loadingDashItem(), gradient: _gradient),
+          Shimmer(child: SensorItemLoading(), gradient: _gradient),
+          Shimmer(child: SensorItemLoading(), gradient: _gradient),
+          Shimmer(child: SensorItemLoading(), gradient: _gradient),
+          Shimmer(child: SensorItemLoading(), gradient: _gradient),
         ],
       ),
     );

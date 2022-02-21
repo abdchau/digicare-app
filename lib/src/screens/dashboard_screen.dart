@@ -11,7 +11,7 @@ import '../widgets/dashboard/profile/profile_widget.dart';
 import '../widgets/dashboard/sensors/sensors.dart';
 
 import '../widgets/dashboard/profile_loading/profile_loading.dart';
-import '../widgets/dashboard/sensors/sensors_loading.dart';
+import '../widgets/dashboard/sensors_loading/sensors_loading.dart';
 
 class DashboardScreen extends StatelessWidget {
   @override

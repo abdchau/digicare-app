@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../models/sensor_model.dart';
-import 'dashboard_card.dart';
+import 'sensor_item.dart';
 
 class DashboardSensors extends StatelessWidget {
   late List<SensorModel> sensors;
@@ -25,8 +25,7 @@ class DashboardSensors extends StatelessWidget {
   List<Widget> getDashboardItems(BuildContext context) {
     List<Widget> children = <Widget>[];
     for (SensorModel sensor in sensors) {
-      children.add(
-          makeDashboardItem(sensor.dataDesc, Icons.health_and_safety, context));
+      children.add(SensorItem(sensor, Icons.health_and_safety));
     }
 
     return children;
