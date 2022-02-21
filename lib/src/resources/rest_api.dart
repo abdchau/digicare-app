@@ -54,9 +54,9 @@ class RestAPI {
     return ret;
   }
 
-  Future<List<ReadingModel>> fetchSensorReadings(
+  Future<List<ReadingModel>?> fetchSensorReadings(
       String jwt, int patientID, int sensorID) async {
-    await Future.delayed(const Duration(milliseconds: 2500));
+    await Future.delayed(const Duration(milliseconds: 1000));
     Response response = await client.get(
       Uri.parse("$_hostAddress/readings/patient/$patientID/$sensorID"),
       headers: <String, String>{
@@ -64,10 +64,13 @@ class RestAPI {
       },
     );
     print(response.body);
-    final List list =
-        json.decode(response.body)['_embedded']['sensorPatientDataList'];
-    final ret = ReadingModel.list(list);
-    print("$ret SENSOR READING API");
-    return ret;
+    final res = json.decode(response.body)['_embedded'];
+    if (res.containsKey('sensorPatientDataList')) {
+      final ret = ReadingModel.list(res['sensorPatientDataList']);
+      print("$ret SENSOR READING API");
+      return ret;
+    } else {
+      return null;
+    }
   }
 }

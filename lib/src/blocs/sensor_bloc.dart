@@ -12,7 +12,7 @@ class SensorBloc {
   final _api = RestAPI();
 
   final _readingsFetch = BehaviorSubject<Map<String, dynamic>>();
-  late Stream<Future<List<ReadingModel>>> _readings;
+  late Stream<Future<List<ReadingModel>?>> _readings;
 
   SensorBloc() {
     print("SENSORBLOC INIT");
@@ -22,7 +22,7 @@ class SensorBloc {
 
   // getters to streams
   Stream<Future<List<SensorModel>>> get sensorsStream => _sensors;
-  Stream<Future<List<ReadingModel>>> get readingsStream => _readings;
+  Stream<Future<List<ReadingModel>?>> get readingsStream => _readings;
 
   // getters to sinks
   void Function(String) get fetchSensors => _sensorsFetch.sink.add;
@@ -39,15 +39,19 @@ class SensorBloc {
     );
   }
 
-  StreamTransformer<Map<String, dynamic>, Future<List<ReadingModel>>>
+  StreamTransformer<Map<String, dynamic>, Future<List<ReadingModel>?>>
       _readingsTransformer() {
     return StreamTransformer<Map<String, dynamic>,
-        Future<List<ReadingModel>>>.fromHandlers(
+        Future<List<ReadingModel>?>>.fromHandlers(
       handleData: (Map<String, dynamic> map, sink) {
         print("IN READINGTRANSFORMER");
         final readings = _api.fetchSensorReadings(
             map['jwt'], map['patientID'], map['sensorID']);
-        sink.add(readings);
+        if (readings == null) {
+          sink.addError("No readings");
+        } else {
+          sink.add(readings);
+        }
       },
     );
   }
