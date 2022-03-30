@@ -2,9 +2,24 @@ import 'dart:convert' show json;
 
 import 'address_model.dart';
 
+enum UserRole {
+  ROLE_PATIENT,
+  ROLE_DOCTOR,
+}
+
+List<UserRole> _getRoles(roles) {
+  List<UserRole> list = [];
+  for (final item in roles) {
+    list.add(UserRole.values
+        .firstWhere((e) => e.toString() == 'UserRole.' + item['name']));
+  }
+  return list;
+}
+
 class UserModel {
   String firstName, lastName, email, password, phoneNo, cnic;
   // DateTime dob;
+  List<UserRole> roles;
   AddressModel address;
   int id, age;
 
@@ -19,6 +34,7 @@ class UserModel {
     this.address,
     this.id,
     this.age,
+    this.roles,
   );
 
   UserModel.fromJson(Map<String, dynamic> parsedJson)
@@ -30,10 +46,11 @@ class UserModel {
         cnic = parsedJson['cnic'] ?? "NO CNIC FROM API",
         address = AddressModel.fromJson(parsedJson['address']),
         id = parsedJson['id'] ?? -999,
-        age = parsedJson['age'] ?? -9999;
+        age = parsedJson['age'] ?? -9999,
+        roles = _getRoles(parsedJson['roles']);
 
   @override
   String toString() {
-    return "$id, $firstName, $lastName, $email, $password, $phoneNo, $cnic, $age, $address";
+    return "$id, $firstName, $lastName, $email, $password, $phoneNo, $cnic, $age, $address, $roles";
   }
 }

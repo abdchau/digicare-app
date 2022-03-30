@@ -13,6 +13,7 @@ class SensorBloc {
 
   final _readingsFetch = BehaviorSubject<Map<String, dynamic>>();
   late Stream<Future<List<ReadingModel>?>> _readings;
+  late SensorModel currentSensor;
 
   SensorBloc() {
     print("SENSORBLOC INIT");

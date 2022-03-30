@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../models/sensor_model.dart';
+import '../../../blocs/sensor_bloc.dart';
 
 class SensorItem extends StatelessWidget {
   SensorModel sensorModel;
@@ -10,12 +12,15 @@ class SensorItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SensorBloc sensorBloc = Provider.of<SensorBloc>(context);
+
     return Container(
       margin: const EdgeInsets.all(8.0),
       decoration:
           const BoxDecoration(color: Color.fromRGBO(220, 220, 220, 1.0)),
       child: InkWell(
         onTap: () {
+          sensorBloc.currentSensor = sensorModel;
           Navigator.pushNamed(context, "/sensordata/${sensorModel.id}");
         },
         child: Column(

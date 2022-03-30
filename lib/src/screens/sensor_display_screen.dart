@@ -2,16 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../blocs/sensor_bloc.dart';
+import '../models/sensor_model.dart';
 import '../models/reading_model.dart';
 
 class SensorDisplayScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SensorBloc sensorBloc = Provider.of<SensorBloc>(context);
+    SensorModel sensorModel = sensorBloc.currentSensor;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Sensor'),
+        title: Text('${sensorModel.dataDesc}'),
         elevation: .1,
         backgroundColor: const Color.fromRGBO(49, 87, 110, 1.0),
       ),
