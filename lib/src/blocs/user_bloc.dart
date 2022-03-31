@@ -15,6 +15,9 @@ class UserBloc {
   final _patientsFetch = BehaviorSubject<int>();
   late Stream<Future<List<UserModel>?>> _patients;
 
+  final _doctorsFetch = BehaviorSubject<int>();
+  late Stream<Future<List<UserModel>?>> _doctors;
+
   set setJWT(String jwt) {
     this.jwt = jwt;
   }
@@ -35,22 +38,25 @@ class UserBloc {
     print("USERBLOC INIT");
     _user = _userFetch.stream.transform(_userTransformer());
     _patients = _patientsFetch.stream.transform(_patientsTransformer());
+    _doctors = _doctorsFetch.stream.transform(_doctorsTransformer());
   }
 
   // getters to streams
   Stream<Future<UserModel>> get userStream => _user;
   Stream<Future<List<UserModel>?>> get patientsStream => _patients;
+  Stream<Future<List<UserModel>?>> get doctorsStream => _doctors;
 
   // getters to sinks
   void Function(int) get fetchUser => _userFetch.sink.add;
   void Function(int) get fetchPatients => _patientsFetch.sink.add;
+  void Function(int) get fetchDoctors => _doctorsFetch.sink.add;
 
   StreamTransformer<int, Future<UserModel>> _userTransformer() {
     return StreamTransformer<int, Future<UserModel>>.fromHandlers(
       handleData: (int userID, sink) {
         print("IN USERTRANSFORMER");
-        final _user = _api.fetchUser(jwt, _email);
-        sink.add(_user);
+        final _userReturned = _api.fetchUser(jwt, _email);
+        sink.add(_userReturned);
       },
     );
   }
@@ -59,9 +65,24 @@ class UserBloc {
     return StreamTransformer<int, Future<List<UserModel>?>>.fromHandlers(
       handleData: (int userID, sink) {
         print("IN USERTRANSFORMER");
-        final _patients1 = _api.fetchDoctorsPatients(jwt, id);
-        sink.add(_patients1);
+        final _patientsReturned = _api.fetchDoctorsPatients(jwt, id);
+        sink.add(_patientsReturned);
       },
     );
+  }
+
+  StreamTransformer<int, Future<List<UserModel>?>> _doctorsTransformer() {
+    return StreamTransformer<int, Future<List<UserModel>?>>.fromHandlers(
+      handleData: (int userID, sink) {
+        print("IN USERTRANSFORMER");
+        final _doctorsReturned = _api.fetchPatientsDoctors(jwt, id);
+        sink.add(_doctorsReturned);
+      },
+    );
+  }
+
+  void revokeDoctorPermission(int doctorID) async {
+    await _api.revokeDoctorPermission(jwt, patientID, doctorID);
+    print("Revoked $patientID $doctorID");
   }
 }

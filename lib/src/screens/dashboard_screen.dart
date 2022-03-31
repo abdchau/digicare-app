@@ -3,15 +3,21 @@ import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../blocs/user_bloc.dart';
+
+import '../widgets/dashboard/sensors_tab.dart';
+import '../widgets/dashboard/doctors_tab.dart';
+// import '../widgets/dashboard/refresh.dart';
+
+// import '../blocs/sensor_bloc.dart';
+// import '../blocs/user_bloc.dart';
+
 import '../models/user_model.dart';
-import '../blocs/sensor_bloc.dart';
-import '../models/sensor_model.dart';
+// import '../models/sensor_model.dart';
 
 import '../widgets/dashboard/profile/profile_widget.dart';
-import '../widgets/sensors/sensors.dart';
-
+// import '../widgets/sensors/sensors.dart';
 import '../widgets/dashboard/profile_loading/profile_loading.dart';
-import '../widgets/dashboard/sensors_loading/sensors_loading.dart';
+// import '../widgets/dashboard/sensors_loading/sensors_loading.dart';
 
 class DashboardScreen extends StatelessWidget {
   @override
@@ -51,6 +57,8 @@ class DashboardScreen extends StatelessWidget {
               } else {
                 userBloc.id = userSnapshot.data!.id;
                 UserModel user = userSnapshot.data!;
+
+                // PATIENT
                 if (user.roles[0] == UserRole.ROLE_PATIENT) {
                   userBloc.patientID = userBloc.id;
                   return ListView(
@@ -58,7 +66,10 @@ class DashboardScreen extends StatelessWidget {
                     children: patientDashboard(user, context),
                     padding: const EdgeInsets.all(10),
                   );
-                } else {
+                }
+
+                // DOCTOR
+                else {
                   return Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -78,7 +89,39 @@ class DashboardScreen extends StatelessWidget {
   List<Widget> patientDashboard(UserModel user, BuildContext context) {
     return <Widget>[
       profile(user),
-      sensors(context),
+      DefaultTabController(
+        length: 2,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Container(
+              height: 60,
+              color: const Color.fromRGBO(49, 87, 110, 1.0),
+              child: const TabBar(
+                tabs: [
+                  Tab(
+                    text: "Sensors",
+                    icon: Icon(Icons.sensors_sharp),
+                  ),
+                  Tab(
+                    text: 'Doctors',
+                    icon: Icon(Icons.health_and_safety),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              height: 500,
+              child: TabBarView(
+                children: [
+                  SensorsTab(),
+                  DoctorsTab(),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
     ];
   }
 
@@ -137,6 +180,21 @@ class DashboardScreen extends StatelessWidget {
     // ];
   }
 
+  Widget profile(UserModel user) {
+    return ProfileWidget(user);
+  }
+
+  Widget loadingProfile() {
+    return Shimmer(
+      child: ProfileWidgetLoading(),
+      gradient: LinearGradient(colors: <Color>[
+        Colors.grey[300]!,
+        Colors.grey[50]!,
+      ]),
+      period: const Duration(seconds: 1),
+    );
+  }
+
   Drawer getDrawer(UserBloc userBloc, BuildContext context) {
     return Drawer(
       child: ListView(
@@ -192,50 +250,5 @@ class DashboardScreen extends StatelessWidget {
         },
       ),
     );*/
-  }
-
-  Widget profile(UserModel user) {
-    return ProfileWidget(user);
-  }
-
-  Widget sensors(BuildContext context) {
-    SensorBloc sensorBloc = Provider.of<SensorBloc>(context);
-
-    return StreamBuilder(
-      stream: sensorBloc.sensorsStream,
-      builder: (BuildContext context,
-          AsyncSnapshot<Future<List<SensorModel>>> snapshot) {
-        if (!snapshot.hasData) {
-          return const Center(
-            child: Text("LOADING USER"),
-          );
-        }
-        return FutureBuilder(
-          future: snapshot.data,
-          builder: (BuildContext context,
-              AsyncSnapshot<List<SensorModel>> sensorsSnapshot) {
-            if (!sensorsSnapshot.hasData) {
-              return loadingSensors();
-            }
-            return DashboardSensors(sensorsSnapshot.data!);
-          },
-        );
-      },
-    );
-  }
-
-  Widget loadingProfile() {
-    return Shimmer(
-      child: ProfileWidgetLoading(),
-      gradient: LinearGradient(colors: <Color>[
-        Colors.grey[300]!,
-        Colors.grey[50]!,
-      ]),
-      period: const Duration(seconds: 1),
-    );
-  }
-
-  Widget loadingSensors() {
-    return DashboardSensorsLoading();
   }
 }

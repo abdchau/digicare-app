@@ -11,7 +11,7 @@ class DashboardSensors extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 2.0),
+      padding: const EdgeInsets.symmetric(horizontal: 2.0),
       child: GridView.count(
         primary: false,
         shrinkWrap: true,

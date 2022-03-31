@@ -99,4 +99,44 @@ class RestAPI {
       return null;
     }
   }
+
+  Future<List<UserModel>?> fetchPatientsDoctors(
+      String jwt, int patientID) async {
+    await Future.delayed(const Duration(milliseconds: 1000));
+    Response response = await client.get(
+      Uri.parse("$_hostAddress/permission/patient/$patientID"),
+      headers: <String, String>{
+        "Authorization": "Bearer $jwt",
+      },
+    );
+    print(response.body);
+
+    final res = json.decode(response.body)['_embedded'];
+    if (res.containsKey('patientDoctorList')) {
+      List<UserModel> doctors = [];
+      for (var patient in res['patientDoctorList']) {
+        doctors.add(UserModel.fromJson(patient['doctor']));
+      }
+
+      print("$doctors PATIENT'S DOCTORS API");
+
+      return doctors;
+    } else {
+      return null;
+    }
+  }
+
+  Future<void> revokeDoctorPermission(
+      String jwt, int patientID, int doctorID) async {
+    Response response = await client.delete(
+      Uri.parse("$_hostAddress/permission/$patientID/$doctorID"),
+      headers: <String, String>{
+        "Authorization": "Bearer $jwt",
+      },
+    );
+    print(response.body);
+    if (response.statusCode != 200) {
+      throw (response.statusCode);
+    }
+  }
 }
