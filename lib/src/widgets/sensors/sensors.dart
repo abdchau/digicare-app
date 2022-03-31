@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../models/sensor_model.dart';
+import '../../models/sensor_model.dart';
 import 'sensor_item.dart';
 
 class DashboardSensors extends StatelessWidget {

@@ -73,4 +73,30 @@ class RestAPI {
       return null;
     }
   }
+
+  Future<List<UserModel>?> fetchDoctorsPatients(
+      String jwt, int doctorID) async {
+    await Future.delayed(const Duration(milliseconds: 1000));
+    Response response = await client.get(
+      Uri.parse("$_hostAddress/permission/doctor/$doctorID"),
+      headers: <String, String>{
+        "Authorization": "Bearer $jwt",
+      },
+    );
+    print(response.body);
+
+    final res = json.decode(response.body)['_embedded'];
+    if (res.containsKey('patientDoctorList')) {
+      List<UserModel> patients = [];
+      for (var patient in res['patientDoctorList']) {
+        patients.add(UserModel.fromJson(patient['patient']));
+      }
+
+      print("$patients DOCTOR'S PATIENTS API");
+
+      return patients;
+    } else {
+      return null;
+    }
+  }
 }

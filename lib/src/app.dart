@@ -1,12 +1,14 @@
-import 'package:digicare/src/screens/sensor_display_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'screens/login_screen.dart';
 import 'blocs/login_bloc.dart';
 import 'blocs/user_bloc.dart';
 import 'blocs/sensor_bloc.dart';
+
+import 'screens/login_screen.dart';
 import 'screens/dashboard_screen.dart';
+import 'screens/patient_display_screen.dart';
+import 'screens/sensor_display_screen.dart';
 
 class App extends StatelessWidget {
   @override
@@ -43,7 +45,7 @@ class App extends StatelessWidget {
           return DashboardScreen();
         },
       );
-    } else {
+    } else if (settings.name!.substring(0, 11).compareTo('/sensordata') == 0) {
       return MaterialPageRoute(
         builder: (BuildContext context) {
           UserBloc userBloc = Provider.of<UserBloc>(context);
@@ -52,12 +54,20 @@ class App extends StatelessWidget {
           sensorBloc.fetchReadings(
             <String, dynamic>{
               'jwt': userBloc.jwt,
-              'patientID': userBloc.id,
+              'patientID': userBloc.patientID,
               'sensorID': int.parse(settings.name!.substring(12)),
             },
           );
 
           return SensorDisplayScreen();
+        },
+      );
+    } else {
+      final Map<String, dynamic> rcvdData =
+          settings.arguments as Map<String, dynamic>;
+      return MaterialPageRoute(
+        builder: (BuildContext context) {
+          return PatientDisplayScreen(rcvdData['patient']);
         },
       );
     }

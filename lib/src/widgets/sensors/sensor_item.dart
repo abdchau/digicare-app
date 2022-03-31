@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../models/sensor_model.dart';
-import '../../../blocs/sensor_bloc.dart';
+import '../../models/sensor_model.dart';
+import '../../blocs/sensor_bloc.dart';
 
 class SensorItem extends StatelessWidget {
   SensorModel sensorModel;
