@@ -33,44 +33,52 @@ class DoctorsTabState extends State<DoctorsTab>
           future: snapshot.data,
           builder: (BuildContext context,
               AsyncSnapshot<List<UserModel>?> doctorsSnapshot) {
-            if (!doctorsSnapshot.hasData) {
+            if (doctorsSnapshot.hasError) {
+              return ListTile(
+                title: const Text("No doctors have permission to view data"),
+                subtitle: const Text("Tap to add doctors"),
+                onTap: () {
+                  print("Adding doctors");
+                },
+                trailing: const Icon(Icons.add),
+              );
+            } else if (!doctorsSnapshot.hasData) {
               return const Center(
                 child: CircularProgressIndicator(),
               );
-            } else {
-              List<UserModel> doctors = doctorsSnapshot.data!;
-              return ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: doctors.length,
-                  itemBuilder: (context, int index) {
-                    return Dismissible(
-                      key: Key(doctors[index].cnic),
-                      onDismissed: (DismissDirection direction) {
-                        userBloc.revokeDoctorPermission(doctors[index].id);
-                        setState(() {
-                          doctors.removeAt(index);
-                        });
-
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                                '${doctors[index].firstName} ${doctors[index].lastName} dismissed'),
-                          ),
-                        );
-                      },
-                      background: Container(color: Colors.red),
-                      child: ListTile(
-                        title: Text(
-                            '${doctors[index].firstName} ${doctors[index].lastName}'),
-                        subtitle: Text("Age: ${doctors[index].age}"),
-                        onTap: () {
-                          print(doctors[index].firstName);
-                        },
-                      ),
-                    );
-                  },
-                  padding: const EdgeInsets.all(10));
             }
+            List<UserModel> doctors = doctorsSnapshot.data!;
+            return ListView.builder(
+                shrinkWrap: true,
+                itemCount: doctors.length,
+                itemBuilder: (context, int index) {
+                  return Dismissible(
+                    key: Key(doctors[index].cnic),
+                    onDismissed: (DismissDirection direction) {
+                      userBloc.revokeDoctorPermission(doctors[index].id);
+                      setState(() {
+                        doctors.removeAt(index);
+                      });
+
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                              '${doctors[index].firstName} ${doctors[index].lastName} dismissed'),
+                        ),
+                      );
+                    },
+                    background: Container(color: Colors.red),
+                    child: ListTile(
+                      title: Text(
+                          '${doctors[index].firstName} ${doctors[index].lastName}'),
+                      subtitle: Text("Age: ${doctors[index].age}"),
+                      onTap: () {
+                        print(doctors[index].firstName);
+                      },
+                    ),
+                  );
+                },
+                padding: const EdgeInsets.all(10));
           },
         );
       },

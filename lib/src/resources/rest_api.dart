@@ -112,6 +112,7 @@ class RestAPI {
     print(response.body);
 
     final res = json.decode(response.body)['_embedded'];
+    // print("$res AAAAAAAAAAAAAAAAAAA");
     if (res.containsKey('patientDoctorList')) {
       List<UserModel> doctors = [];
       for (var patient in res['patientDoctorList']) {
@@ -122,6 +123,7 @@ class RestAPI {
 
       return doctors;
     } else {
+      print('HEREEEE');
       return null;
     }
   }

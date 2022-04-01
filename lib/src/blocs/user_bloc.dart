@@ -74,9 +74,13 @@ class UserBloc {
   StreamTransformer<int, Future<List<UserModel>?>> _doctorsTransformer() {
     return StreamTransformer<int, Future<List<UserModel>?>>.fromHandlers(
       handleData: (int userID, sink) {
-        print("IN USERTRANSFORMER");
+        print("IN PATIENTS DOCTOR TRANSFORMER");
         final _doctorsReturned = _api.fetchPatientsDoctors(jwt, id);
-        sink.add(_doctorsReturned);
+        if (_doctorsReturned == null) {
+          sink.addError("No doctors found");
+        } else {
+          sink.add(_doctorsReturned);
+        }
       },
     );
   }
