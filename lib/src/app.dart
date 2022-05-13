@@ -6,6 +6,7 @@ import 'blocs/user_bloc.dart';
 import 'blocs/sensor_bloc.dart';
 
 import 'screens/login_screen.dart';
+import 'screens/signup_screen.dart';
 import 'screens/dashboard_screen.dart';
 import 'screens/patient_display_screen.dart';
 import 'screens/sensor_display_screen.dart';
@@ -43,6 +44,13 @@ class App extends StatelessWidget {
           SensorBloc sensorBloc = Provider.of<SensorBloc>(context);
           sensorBloc.fetchSensors(userBloc.jwt);
           return DashboardScreen();
+        },
+      );
+    } else if (settings.name == '/signup') {
+      return MaterialPageRoute(
+        builder: (BuildContext context) {
+          print('helo');
+          return SignupScreen();
         },
       );
     } else if (settings.name!.substring(0, 11).compareTo('/sensordata') == 0) {
