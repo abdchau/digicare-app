@@ -20,6 +20,7 @@ class DoctorListItem extends StatelessWidget {
           subtitle: Text("Age: ${doctor.age}"),
           onTap: () {
             print(doctor.firstName);
+            userBloc.addDoctorPermission(doctor.id);
           },
           trailing: const Icon(Icons.add),
         ),

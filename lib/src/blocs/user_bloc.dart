@@ -105,6 +105,11 @@ class UserBloc {
     );
   }
 
+  void addDoctorPermission(int doctorID) async {
+    await _api.addDoctorPermission(jwt, patientID, doctorID);
+    print('Added $patientID $doctorID');
+  }
+
   void revokeDoctorPermission(int doctorID) async {
     await _api.revokeDoctorPermission(jwt, patientID, doctorID);
     print("Revoked $patientID $doctorID");

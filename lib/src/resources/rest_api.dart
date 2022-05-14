@@ -150,6 +150,22 @@ class RestAPI {
     return null;
   }
 
+  Future<void> addDoctorPermission(
+      String jwt, int patientID, int doctorID) async {
+    Response response = await client.post(
+      Uri.parse("$_hostAddress/permission"),
+      headers: <String, String>{
+        "Authorization": "Bearer $jwt",
+        "Content-Type": "application/json",
+      },
+      body: '{"patientId": $patientID, "doctorId": $doctorID}',
+    );
+    print(response.body);
+    if (response.statusCode != 200) {
+      throw (response.statusCode);
+    }
+  }
+
   Future<void> revokeDoctorPermission(
       String jwt, int patientID, int doctorID) async {
     Response response = await client.delete(
