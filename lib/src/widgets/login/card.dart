@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 import '../../blocs/login_bloc.dart';
 import '../../blocs/user_bloc.dart';
 
+import 'stream_text_field.dart';
+
 class LoginCard extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _LoginCardState();
@@ -35,8 +37,27 @@ class _LoginCardState extends State<LoginCard> {
             fontSize: 20,
           ),
         ),
-        imageField(Icons.person, emailField(bloc)),
-        imageField(Icons.lock_outlined, passwordField(bloc)),
+        imageField(
+          Icons.person,
+          StreamTextField(
+            hintText: 'you@example.com',
+            labelText: 'Email address',
+            stream: bloc.emailStream,
+            onChanged: bloc.changeEmail,
+            textInputType: TextInputType.emailAddress,
+          ),
+        ),
+        imageField(
+          Icons.lock_outlined,
+          StreamTextField(
+            hintText: 'Password',
+            labelText: 'Password',
+            stream: bloc.passwordStream,
+            onChanged: bloc.changePassword,
+            textInputType: TextInputType.visiblePassword,
+            obscureText: true,
+          ),
+        ),
         submitButton(bloc, context),
         const SizedBox(height: 10),
         const Text(
@@ -87,41 +108,6 @@ class _LoginCardState extends State<LoginCard> {
           Expanded(child: field),
         ],
       ),
-    );
-  }
-
-  Widget emailField(LoginBloc bloc) {
-    return StreamBuilder(
-      stream: bloc.emailStream,
-      builder: (BuildContext context, snapshot) {
-        return TextField(
-          decoration: InputDecoration(
-            hintText: 'you@example.com',
-            labelText: 'Email address',
-            errorText: snapshot.hasError ? snapshot.error.toString() : "",
-          ),
-          keyboardType: TextInputType.emailAddress,
-          onChanged: bloc.changeEmail,
-        );
-      },
-    );
-  }
-
-  Widget passwordField(LoginBloc bloc) {
-    return StreamBuilder(
-      stream: bloc.passwordStream,
-      builder: (BuildContext context, snapshot) {
-        return TextField(
-          decoration: InputDecoration(
-            hintText: 'Password',
-            labelText: 'Password',
-            errorText: snapshot.hasError ? snapshot.error.toString() : "",
-          ),
-          keyboardType: TextInputType.visiblePassword,
-          obscureText: true,
-          onChanged: bloc.changePassword,
-        );
-      },
     );
   }
 

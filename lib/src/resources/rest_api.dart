@@ -128,6 +128,28 @@ class RestAPI {
     }
   }
 
+  Future<List<UserModel>?> fetchAllOfRole(String jwt, String role) async {
+    await Future.delayed(const Duration(milliseconds: 1000));
+    Response response = await client.get(
+      Uri.parse("$_hostAddress/users/role/$role"),
+      headers: <String, String>{
+        "Authorization": "Bearer $jwt",
+      },
+    );
+
+    print(response.body);
+
+    final res = json.decode(response.body)['_embedded'];
+    if (res.containsKey('userList')) {
+      List<UserModel> doctors = [];
+      for (var doctor in res['userList']) {
+        doctors.add(UserModel.fromJson(doctor));
+      }
+      return doctors;
+    }
+    return null;
+  }
+
   Future<void> revokeDoctorPermission(
       String jwt, int patientID, int doctorID) async {
     Response response = await client.delete(

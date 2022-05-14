@@ -38,7 +38,7 @@ class DoctorsTabState extends State<DoctorsTab>
                 title: const Text("No doctors have permission to view data"),
                 subtitle: const Text("Tap to add doctors"),
                 onTap: () {
-                  print("Adding doctors");
+                  Navigator.pushNamed(context, '/add_doctors');
                 },
                 trailing: const Icon(Icons.add),
               );
@@ -52,30 +52,35 @@ class DoctorsTabState extends State<DoctorsTab>
                 shrinkWrap: true,
                 itemCount: doctors.length,
                 itemBuilder: (context, int index) {
-                  return Dismissible(
-                    key: Key(doctors[index].cnic),
-                    onDismissed: (DismissDirection direction) {
-                      userBloc.revokeDoctorPermission(doctors[index].id);
-                      setState(() {
-                        doctors.removeAt(index);
-                      });
+                  return Column(
+                    children: [
+                      Dismissible(
+                        key: Key(doctors[index].cnic),
+                        onDismissed: (DismissDirection direction) {
+                          userBloc.revokeDoctorPermission(doctors[index].id);
+                          setState(() {
+                            doctors.removeAt(index);
+                          });
 
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                              '${doctors[index].firstName} ${doctors[index].lastName} dismissed'),
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                  '${doctors[index].firstName} ${doctors[index].lastName} dismissed'),
+                            ),
+                          );
+                        },
+                        background: Container(color: Colors.red),
+                        child: ListTile(
+                          title: Text(
+                              '${doctors[index].firstName} ${doctors[index].lastName}'),
+                          subtitle: Text("Age: ${doctors[index].age}"),
+                          onTap: () {
+                            print(doctors[index].firstName);
+                          },
                         ),
-                      );
-                    },
-                    background: Container(color: Colors.red),
-                    child: ListTile(
-                      title: Text(
-                          '${doctors[index].firstName} ${doctors[index].lastName}'),
-                      subtitle: Text("Age: ${doctors[index].age}"),
-                      onTap: () {
-                        print(doctors[index].firstName);
-                      },
-                    ),
+                      ),
+                      const Divider(),
+                    ],
                   );
                 },
                 padding: const EdgeInsets.all(10));

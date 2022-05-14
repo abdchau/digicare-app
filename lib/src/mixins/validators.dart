@@ -22,4 +22,14 @@ class Validator {
       }
     },
   );
+
+  final validateText = StreamTransformer<String, String>.fromHandlers(
+    handleData: (text, sink) {
+      if (text.length > 0) {
+        sink.add(text);
+      } else {
+        sink.addError("This field cannot be empty");
+      }
+    },
+  );
 }
