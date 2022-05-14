@@ -5,10 +5,10 @@ import '../../models/sensor_model.dart';
 import '../../blocs/sensor_bloc.dart';
 
 class SensorItem extends StatelessWidget {
-  SensorModel sensorModel;
-  IconData icon;
+  final SensorModel sensorModel;
+  final IconData icon;
 
-  SensorItem(this.sensorModel, this.icon);
+  const SensorItem(this.sensorModel, this.icon);
 
   @override
   Widget build(BuildContext context) {

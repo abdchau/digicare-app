@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart' show Provider;
-import 'package:shimmer/shimmer.dart';
 
-import '../../../models/user_model.dart';
 import 'name_avatar_loading.dart';
 
-var _montserrat = const TextStyle(
-  fontSize: 12,
-  fontFamily: "Consolas",
-);
+// var _montserrat = const TextStyle(
+//   fontSize: 12,
+//   fontFamily: "Consolas",
+// );
 
 class ProfileWidgetLoading extends StatelessWidget {
   @override

@@ -70,6 +70,7 @@ flutter:
     - assets/login_screen/email.png
     - assets/login_screen/forgot_password.png
     - assets/signup_screen/signup_heart.png
+    - assets/signup_screen/img_placeholder.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

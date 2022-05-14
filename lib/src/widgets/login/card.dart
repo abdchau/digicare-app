@@ -18,13 +18,13 @@ class _LoginCardState extends State<LoginCard> {
     return IndexedStack(
       index: _index,
       children: <Widget>[
-        LoginCard(bloc),
-        SignupCard(context),
+        loginCard(bloc),
+        signupCard(context),
       ],
     );
   }
 
-  Widget LoginCard(LoginBloc bloc) {
+  Widget loginCard(LoginBloc bloc) {
     return Column(
       children: [
         const Text(
@@ -192,7 +192,7 @@ class _LoginCardState extends State<LoginCard> {
     );
   }
 
-  Widget SignupCard(BuildContext context) {
+  Widget signupCard(BuildContext context) {
     return Column(
       children: [
         Image.asset(
@@ -208,11 +208,11 @@ class _LoginCardState extends State<LoginCard> {
           ),
         ),
         const SizedBox(height: 20),
-        signupButton(Icons.health_and_safety, "Doctor"),
+        signupButton(context, Icons.health_and_safety, "Doctor"),
         const SizedBox(height: 20),
-        signupButton(Icons.masks, "Patient"),
+        signupButton(context, Icons.masks, "Patient"),
         const SizedBox(height: 20),
-        signupButton(Icons.health_and_safety, "Caregiver"),
+        signupButton(context, Icons.health_and_safety, "Caregiver"),
         const SizedBox(height: 10),
         Row(
           children: const [
@@ -230,7 +230,8 @@ class _LoginCardState extends State<LoginCard> {
     );
   }
 
-  Widget signupButton(final IconData iconData, final String text) {
+  Widget signupButton(
+      BuildContext context, final IconData iconData, final String text) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -240,7 +241,9 @@ class _LoginCardState extends State<LoginCard> {
           child: SizedBox(
             height: 45,
             child: TextButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(context, '/signup');
+              },
               style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all<Color>(
                       const Color.fromARGB(255, 0, 109, 119))),

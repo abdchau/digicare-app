@@ -1,16 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:provider/provider.dart';
 
 import '../../blocs/sensor_bloc.dart';
-import '../../blocs/user_bloc.dart';
 
-import '../../models/user_model.dart';
 import '../../models/sensor_model.dart';
 
-import '../../widgets/dashboard/profile/profile_widget.dart';
 import '../../widgets/sensors/sensors.dart';
-import '../../widgets/dashboard/profile_loading/profile_loading.dart';
 import '../../widgets/dashboard/sensors_loading/sensors_loading.dart';
 
 class SensorsTab extends StatefulWidget {

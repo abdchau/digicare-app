@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart' show Provider;
 
 import '../../../models/user_model.dart';
 import 'name_avatar.dart';
