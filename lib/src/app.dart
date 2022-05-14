@@ -23,6 +23,9 @@ class App extends StatelessWidget {
         child: MaterialApp(
           title: 'Digicare',
           onGenerateRoute: routes,
+          theme: ThemeData(
+            primaryColor: const Color.fromRGBO(0, 109, 119, 1.0),
+          ),
         ),
       ),
     );

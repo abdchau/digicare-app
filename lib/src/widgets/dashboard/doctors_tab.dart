@@ -34,13 +34,19 @@ class DoctorsTabState extends State<DoctorsTab>
           builder: (BuildContext context,
               AsyncSnapshot<List<UserModel>?> doctorsSnapshot) {
             if (doctorsSnapshot.hasError) {
-              return ListTile(
-                title: const Text("No doctors have permission to view data"),
-                subtitle: const Text("Tap to add doctors"),
-                onTap: () {
-                  Navigator.pushNamed(context, '/add_doctors');
+              return ListView.builder(
+                itemCount: 1,
+                itemBuilder: (BuildContext context, index) {
+                  return ListTile(
+                    title:
+                        const Text("No doctors have permission to view data"),
+                    subtitle: const Text("Tap to add doctors"),
+                    onTap: () {
+                      Navigator.pushNamed(context, '/add_doctors');
+                    },
+                    trailing: const Icon(Icons.add),
+                  );
                 },
-                trailing: const Icon(Icons.add),
               );
             } else if (!doctorsSnapshot.hasData) {
               return const Center(
@@ -49,9 +55,11 @@ class DoctorsTabState extends State<DoctorsTab>
             }
             List<UserModel> doctors = doctorsSnapshot.data!;
             return ListView.builder(
-                shrinkWrap: true,
-                itemCount: doctors.length,
-                itemBuilder: (context, int index) {
+              padding: const EdgeInsets.all(10),
+              shrinkWrap: true,
+              itemCount: doctors.length + 1,
+              itemBuilder: (context, int index) {
+                if (index < doctors.length) {
                   return Column(
                     children: [
                       Dismissible(
@@ -82,8 +90,18 @@ class DoctorsTabState extends State<DoctorsTab>
                       const Divider(),
                     ],
                   );
-                },
-                padding: const EdgeInsets.all(10));
+                } else {
+                  return ListTile(
+                    title: const Text("Want more?"),
+                    subtitle: const Text("Tap to add doctors"),
+                    onTap: () {
+                      Navigator.pushNamed(context, '/add_doctors');
+                    },
+                    trailing: const Icon(Icons.add),
+                  );
+                }
+              },
+            );
           },
         );
       },

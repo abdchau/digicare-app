@@ -14,6 +14,7 @@ class AddDoctorScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Add Doctors'),
+        backgroundColor: Theme.of(context).primaryColor,
       ),
       body: StreamBuilder(
         stream: userBloc.allDoctorsStream,

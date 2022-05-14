@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../blocs/signup_bloc.dart';
 
-import '../widgets/login/stream_text_field.dart';
+import '../widgets/misc/stream_text_field.dart';
 
 class SignupScreen extends StatelessWidget {
   @override
@@ -13,7 +13,7 @@ class SignupScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         elevation: .1,
-        backgroundColor: const Color.fromRGBO(49, 87, 110, 1.0),
+        backgroundColor: Theme.of(context).primaryColor,
         title: Row(
           children: [
             Image.asset(

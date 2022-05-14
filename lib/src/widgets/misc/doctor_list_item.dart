@@ -21,6 +21,7 @@ class DoctorListItem extends StatelessWidget {
           onTap: () {
             print(doctor.firstName);
             userBloc.addDoctorPermission(doctor.id);
+            Navigator.pop(context);
           },
           trailing: const Icon(Icons.add),
         ),

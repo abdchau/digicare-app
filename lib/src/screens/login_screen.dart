@@ -22,12 +22,12 @@ class _LoginScreenState extends State<LoginScreen> {
       appBar: AppBar(
         title: const Text('Login'),
         elevation: .1,
-        backgroundColor: const Color.fromRGBO(49, 87, 110, 1.0),
+        backgroundColor: Theme.of(context).primaryColor,
       ),
       body: Container(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
-        color: const Color.fromARGB(255, 0, 109, 119),
+        color: Theme.of(context).primaryColor,
         // child: SingleChildScrollView(
         //   padding: const EdgeInsets.all(20),
 

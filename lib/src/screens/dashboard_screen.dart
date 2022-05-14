@@ -29,7 +29,7 @@ class DashboardScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Dashboard"),
         elevation: .1,
-        backgroundColor: const Color.fromRGBO(49, 87, 110, 1.0),
+        backgroundColor: Theme.of(context).primaryColor,
       ),
       drawer: getDrawer(userBloc, context),
       body: StreamBuilder(
@@ -74,6 +74,7 @@ class DashboardScreen extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       profile(user),
+                      const SizedBox(height: 5),
                       doctorDashboard(user, context, userBloc)
                     ],
                   );
@@ -96,7 +97,7 @@ class DashboardScreen extends StatelessWidget {
           children: <Widget>[
             Container(
               height: 60,
-              color: const Color.fromRGBO(49, 87, 110, 1.0),
+              color: Theme.of(context).primaryColor,
               child: const TabBar(
                 tabs: [
                   Tab(

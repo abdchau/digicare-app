@@ -15,7 +15,7 @@ class SensorDisplayScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('${sensorModel.dataDesc}'),
         elevation: .1,
-        backgroundColor: const Color.fromRGBO(49, 87, 110, 1.0),
+        backgroundColor: Theme.of(context).primaryColor,
       ),
       body: StreamBuilder(
         stream: sensorBloc.readingsStream,

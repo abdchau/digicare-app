@@ -20,19 +20,19 @@ class _LoginCardState extends State<LoginCard> {
     return IndexedStack(
       index: _index,
       children: <Widget>[
-        loginCard(bloc),
+        loginCard(bloc, context),
         signupCard(context),
       ],
     );
   }
 
-  Widget loginCard(LoginBloc bloc) {
+  Widget loginCard(LoginBloc bloc, BuildContext context) {
     return Column(
       children: [
-        const Text(
+        Text(
           "Login",
           style: TextStyle(
-            color: Color.fromARGB(255, 0, 109, 119),
+            color: Theme.of(context).primaryColor,
             fontWeight: FontWeight.bold,
             fontSize: 20,
           ),
@@ -60,10 +60,10 @@ class _LoginCardState extends State<LoginCard> {
         ),
         submitButton(bloc, context),
         const SizedBox(height: 10),
-        const Text(
+        Text(
           "Forgot password?",
           style: TextStyle(
-            color: Color.fromARGB(255, 0, 109, 119),
+            color: Theme.of(context).primaryColor,
             decoration: TextDecoration.underline,
             fontWeight: FontWeight.bold,
           ),
@@ -95,9 +95,9 @@ class _LoginCardState extends State<LoginCard> {
         children: [
           Container(
             padding: const EdgeInsets.all(5),
-            decoration: const BoxDecoration(
-              color: Color.fromARGB(255, 0, 109, 119),
-              borderRadius: BorderRadius.all(Radius.circular(10)),
+            decoration: BoxDecoration(
+              color: Theme.of(context).primaryColor,
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
             ),
             child: Icon(
               icon,
@@ -160,13 +160,13 @@ class _LoginCardState extends State<LoginCard> {
                 children: [
                   Text(
                     text,
-                    style: const TextStyle(
-                      color: Color.fromARGB(255, 0, 109, 119),
+                    style: TextStyle(
+                      color: Theme.of(context).primaryColor,
                     ),
                   ),
                   Icon(
                     iconData,
-                    color: const Color.fromARGB(255, 0, 109, 119),
+                    color: Theme.of(context).primaryColor,
                     size: 30,
                   ),
                 ],
@@ -185,10 +185,10 @@ class _LoginCardState extends State<LoginCard> {
           'assets/signup_screen/signup_heart.png',
           width: 50,
         ),
-        const Text(
+        Text(
           "Sign up as",
           style: TextStyle(
-            color: Color.fromARGB(255, 0, 109, 119),
+            color: Theme.of(context).primaryColor,
             fontWeight: FontWeight.bold,
             fontSize: 20,
           ),
@@ -232,7 +232,7 @@ class _LoginCardState extends State<LoginCard> {
               },
               style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all<Color>(
-                      const Color.fromARGB(255, 0, 109, 119))),
+                      Theme.of(context).primaryColor)),
               child: Text(
                 text,
                 style: const TextStyle(
