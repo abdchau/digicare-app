@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../../blocs/login_bloc.dart';
 import '../../blocs/user_bloc.dart';
 
-import 'stream_text_field.dart';
+import '../misc/stream_text_field.dart';
 
 class LoginCard extends StatefulWidget {
   @override
