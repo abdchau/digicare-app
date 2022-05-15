@@ -81,9 +81,16 @@ class DoctorsTabState extends State<DoctorsTab>
                         child: ListTile(
                           title: Text(
                               '${doctors[index].firstName} ${doctors[index].lastName}'),
-                          subtitle: Text("Age: ${doctors[index].age}"),
+                          subtitle: const Text("Tap to view assessments"),
                           onTap: () {
-                            print(doctors[index].firstName);
+                            Navigator.pushNamed(
+                              context,
+                              '/assessments',
+                              arguments: {
+                                "patientID": userBloc.id,
+                                "doctorID": doctors[index].id,
+                              },
+                            );
                           },
                         ),
                       ),

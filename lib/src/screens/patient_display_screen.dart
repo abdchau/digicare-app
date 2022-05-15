@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../blocs/sensor_bloc.dart';
+import '../blocs/user_bloc.dart';
+
 import '../models/sensor_model.dart';
 import '../models/user_model.dart';
 
@@ -60,7 +62,14 @@ class PatientDisplayScreen extends StatelessWidget {
         ElevatedButton(
           child: const Text("View past assessments"),
           onPressed: () {
-            Navigator.pushNamed(context, '/assessments');
+            Navigator.pushNamed(
+              context,
+              '/assessments',
+              arguments: {
+                "patientID": patient.id,
+                "doctorID": Provider.of<UserBloc>(context, listen: false).id,
+              },
+            );
           },
         ),
       ],

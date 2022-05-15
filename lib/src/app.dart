@@ -50,9 +50,10 @@ class App extends StatelessWidget {
     } else if (settings.name == '/dashboard') {
       return MaterialPageRoute(
         builder: (BuildContext context) {
-          UserBloc userBloc = Provider.of<UserBloc>(context);
+          UserBloc userBloc = Provider.of<UserBloc>(context, listen: false);
           userBloc.fetchUser(1);
-          SensorBloc sensorBloc = Provider.of<SensorBloc>(context);
+          SensorBloc sensorBloc =
+              Provider.of<SensorBloc>(context, listen: false);
           sensorBloc.fetchSensors(userBloc.jwt);
           return DashboardScreen();
         },
@@ -66,15 +67,22 @@ class App extends StatelessWidget {
     } else if (settings.name == '/assessments') {
       return MaterialPageRoute(
         builder: (BuildContext context) {
-          Provider.of<AssessmentBloc>(context)
-              .fetchPastAssessments(Provider.of<UserBloc>(context).jwt);
+          final Map<String, dynamic> rcvdData =
+              settings.arguments as Map<String, dynamic>;
+          Provider.of<AssessmentBloc>(context, listen: false)
+              .fetchPastAssessments(
+            [
+              Provider.of<UserBloc>(context, listen: false).jwt,
+              rcvdData["doctorID"],
+              rcvdData["patientID"],
+            ],
+          );
           return PastAssessmentsScreen();
         },
       );
     } else if (settings.name == '/signup') {
       return MaterialPageRoute(
         builder: (BuildContext context) {
-          print('helo');
           return Provider<SignupBloc>(
             create: (BuildContext context) => SignupBloc(),
             child: SignupScreen(),
@@ -84,8 +92,9 @@ class App extends StatelessWidget {
     } else if (settings.name!.substring(0, 11).compareTo('/sensordata') == 0) {
       return MaterialPageRoute(
         builder: (BuildContext context) {
-          UserBloc userBloc = Provider.of<UserBloc>(context);
-          SensorBloc sensorBloc = Provider.of<SensorBloc>(context);
+          UserBloc userBloc = Provider.of<UserBloc>(context, listen: false);
+          SensorBloc sensorBloc =
+              Provider.of<SensorBloc>(context, listen: false);
           print(settings.name!.substring(12));
           sensorBloc.fetchReadings(
             <String, dynamic>{
@@ -99,6 +108,7 @@ class App extends StatelessWidget {
         },
       );
     } else {
+      // "/patientdata"
       final Map<String, dynamic> rcvdData =
           settings.arguments as Map<String, dynamic>;
       return MaterialPageRoute(

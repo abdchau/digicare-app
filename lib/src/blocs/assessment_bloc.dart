@@ -40,10 +40,11 @@ class AssessmentBloc with Validator {
       );
 
   // PAST ASSESSMENTS STREAMS
-  final _assessmentsFetch = BehaviorSubject<String>();
+  final _assessmentsFetch = BehaviorSubject<List<dynamic>>();
   late Stream<Future<List<AssessmentModel>?>> _assessments;
   Stream<Future<List<AssessmentModel>?>> get assessmentsStream => _assessments;
-  void Function(String) get fetchPastAssessments => _assessmentsFetch.sink.add;
+  void Function(List<dynamic>) get fetchPastAssessments =>
+      _assessmentsFetch.sink.add;
 
   AssessmentBloc() {
     print("ASSESSMENT BLOC INIT");
@@ -67,13 +68,14 @@ class AssessmentBloc with Validator {
     );
   }
 
-  StreamTransformer<String, Future<List<AssessmentModel>?>>
+  StreamTransformer<List<dynamic>, Future<List<AssessmentModel>?>>
       _assessmentsTransformer() {
-    return StreamTransformer<String,
+    return StreamTransformer<List<dynamic>,
         Future<List<AssessmentModel>?>>.fromHandlers(
-      handleData: (String jwt, sink) {
+      // info contains [jwt, doctorID, patientID]
+      handleData: (List<dynamic> info, sink) {
         print("IN PAST ASSESSMENTS TRANSFORMER");
-        final _pastAssessments = _api.fetchPastAssessments(jwt);
+        final _pastAssessments = _api.fetchPastAssessments(info);
         if (_pastAssessments == null) {
           sink.addError("No assessments found");
         } else {

@@ -9,7 +9,9 @@ import '../models/user_model.dart';
 
 class RestAPI {
   final Client client = Client();
-  final String _hostAddress = "http://10.0.2.2:8080";
+  // final String _hostAddress = "http://10.0.2.2:8080";
+  final String _hostAddress = "http://127.0.0.1:8080";
+  // final String _hostAddress = "https://digicare-rest.herokuapp.com";
 
   Future<String?> authenticate(String email, String password) async {
     Response response = await client.post(
@@ -198,12 +200,14 @@ class RestAPI {
     print('ASSESSMENT UPLOAD: ${response.statusCode}');
   }
 
-  Future<List<AssessmentModel>?> fetchPastAssessments(String jwt) async {
+  // info contains [jwt, doctorID, patientID]
+  Future<List<AssessmentModel>?> fetchPastAssessments(
+      List<dynamic> info) async {
     await Future.delayed(const Duration(milliseconds: 1000));
     Response response = await client.get(
-      Uri.parse("$_hostAddress/assessments"),
+      Uri.parse("$_hostAddress/assessments/${info[1]}/${info[2]}"),
       headers: <String, String>{
-        "Authorization": "Bearer $jwt",
+        "Authorization": "Bearer ${info[0]}",
       },
     );
 
