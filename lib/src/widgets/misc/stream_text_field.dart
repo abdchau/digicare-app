@@ -7,6 +7,7 @@ class StreamTextField extends StatelessWidget {
   String hintText, labelText;
   TextInputType textInputType;
   bool obscureText;
+  int minLines, maxLines;
 
   StreamTextField({
     required this.hintText,
@@ -15,6 +16,8 @@ class StreamTextField extends StatelessWidget {
     required this.onChanged,
     this.textInputType = TextInputType.text,
     this.obscureText = false,
+    this.minLines = 1,
+    this.maxLines = 1,
   });
 
   @override
@@ -31,6 +34,8 @@ class StreamTextField extends StatelessWidget {
           keyboardType: textInputType,
           obscureText: obscureText,
           onChanged: onChanged,
+          minLines: minLines,
+          maxLines: maxLines,
         );
       },
     );

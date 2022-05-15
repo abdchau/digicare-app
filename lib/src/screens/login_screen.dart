@@ -31,15 +31,14 @@ class _LoginScreenState extends State<LoginScreen> {
         // child: SingleChildScrollView(
         //   padding: const EdgeInsets.all(20),
 
-        child: Column(
-          children: [
-            const SizedBox(height: 20),
-            Image.asset("assets/doctors.png", height: 200),
-            // const SizedBox.expand(),
-            const SizedBox(height: 30),
-            Expanded(
-              // alignment: Alignment.bottomCenter,
-              child: Container(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const SizedBox(height: 20),
+              Image.asset("assets/doctors.png", height: 200),
+              // const SizedBox.expand(),
+              const SizedBox(height: 30),
+              Container(
                 padding: const EdgeInsets.all(20),
                 decoration: const BoxDecoration(
                   color: Colors.white,
@@ -49,8 +48,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 child: LoginCard(),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -5,6 +5,7 @@ import 'blocs/login_bloc.dart';
 import 'blocs/user_bloc.dart';
 import 'blocs/sensor_bloc.dart';
 import 'blocs/signup_bloc.dart';
+import 'blocs/assessment_bloc.dart';
 
 import 'screens/login_screen.dart';
 import 'screens/signup_screen.dart';
@@ -89,7 +90,10 @@ class App extends StatelessWidget {
           settings.arguments as Map<String, dynamic>;
       return MaterialPageRoute(
         builder: (BuildContext context) {
-          return PatientDisplayScreen(rcvdData['patient']);
+          return Provider<AssessmentBloc>(
+            create: (BuildContext context) => AssessmentBloc(),
+            child: PatientDisplayScreen(rcvdData['patient']),
+          );
         },
       );
     }

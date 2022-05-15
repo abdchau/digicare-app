@@ -179,4 +179,33 @@ class RestAPI {
       throw (response.statusCode);
     }
   }
+
+  Future<void> uploadAssessment(
+    String jwt,
+    String notes,
+    String condition,
+    String recommendations,
+    String cgInstr,
+    String dataDesc,
+    int patientID,
+  ) async {
+    await Future.delayed(const Duration(milliseconds: 1000));
+    Response response = await client.post(
+      Uri.parse("$_hostAddress/assessments"),
+      headers: <String, String>{
+        "Authorization": "Bearer $jwt",
+        "Content-Type": "application/json",
+      },
+      body: '''{
+        "notes": "$notes",
+        "condition": "$condition",
+        "recommendations": "$recommendations",
+        "cg_instr": "$cgInstr",
+        "data_desc": "$dataDesc",
+        "patient_id": $patientID
+      }''',
+    );
+
+    print('ASSESSMENT UPLOAD: ${response.statusCode}');
+  }
 }

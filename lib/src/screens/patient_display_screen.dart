@@ -7,6 +7,7 @@ import '../models/user_model.dart';
 
 import '../widgets/dashboard/sensors_loading/sensors_loading.dart';
 import '../widgets/sensors/sensors.dart';
+import '../widgets/misc/new_assessment.dart';
 
 class PatientDisplayScreen extends StatelessWidget {
   UserModel patient;
@@ -21,33 +22,41 @@ class PatientDisplayScreen extends StatelessWidget {
         elevation: .1,
         backgroundColor: const Color.fromRGBO(49, 87, 110, 1.0),
       ),
-      body: sensors(context),
+      body: SingleChildScrollView(
+        child: sensors(context),
+      ),
     );
   }
 
   Widget sensors(BuildContext context) {
     SensorBloc sensorBloc = Provider.of<SensorBloc>(context);
 
-    return StreamBuilder(
-      stream: sensorBloc.sensorsStream,
-      builder: (BuildContext context,
-          AsyncSnapshot<Future<List<SensorModel>>> snapshot) {
-        if (!snapshot.hasData) {
-          return const Center(
-            child: Text("LOADING USER"),
-          );
-        }
-        return FutureBuilder(
-          future: snapshot.data,
+    return Column(
+      children: [
+        StreamBuilder(
+          stream: sensorBloc.sensorsStream,
           builder: (BuildContext context,
-              AsyncSnapshot<List<SensorModel>> sensorsSnapshot) {
-            if (!sensorsSnapshot.hasData) {
-              return DashboardSensorsLoading();
+              AsyncSnapshot<Future<List<SensorModel>>> snapshot) {
+            if (!snapshot.hasData) {
+              return const Center(
+                child: Text("LOADING USER"),
+              );
             }
-            return DashboardSensors(sensorsSnapshot.data!);
+            return FutureBuilder(
+              future: snapshot.data,
+              builder: (BuildContext context,
+                  AsyncSnapshot<List<SensorModel>> sensorsSnapshot) {
+                if (!sensorsSnapshot.hasData) {
+                  return DashboardSensorsLoading();
+                }
+                return DashboardSensors(sensorsSnapshot.data!);
+              },
+            );
           },
-        );
-      },
+        ),
+        const SizedBox(height: 5),
+        NewAssessment(patient.id),
+      ],
     );
   }
 }
