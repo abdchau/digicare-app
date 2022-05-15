@@ -1,4 +1,5 @@
 import 'dart:convert' show json;
+import 'package:digicare/src/models/assessment_model.dart';
 import 'package:digicare/src/models/reading_model.dart';
 import 'package:digicare/src/models/sensor_model.dart';
 import 'package:http/http.dart';
@@ -182,12 +183,7 @@ class RestAPI {
 
   Future<void> uploadAssessment(
     String jwt,
-    String notes,
-    String condition,
-    String recommendations,
-    String cgInstr,
-    String dataDesc,
-    int patientID,
+    AssessmentModel assessment,
   ) async {
     await Future.delayed(const Duration(milliseconds: 1000));
     Response response = await client.post(
@@ -196,14 +192,7 @@ class RestAPI {
         "Authorization": "Bearer $jwt",
         "Content-Type": "application/json",
       },
-      body: '''{
-        "notes": "$notes",
-        "condition": "$condition",
-        "recommendations": "$recommendations",
-        "cg_instr": "$cgInstr",
-        "data_desc": "$dataDesc",
-        "patient_id": $patientID
-      }''',
+      body: assessment.toString(),
     );
 
     print('ASSESSMENT UPLOAD: ${response.statusCode}');

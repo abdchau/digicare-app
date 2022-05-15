@@ -1,3 +1,4 @@
+import 'package:digicare/src/models/assessment_model.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../mixins/validators.dart';
@@ -41,12 +42,15 @@ class AssessmentBloc with Validator {
     print("Uploading assessment..");
     await _api.uploadAssessment(
       jwt,
-      _notes.value,
-      _condition.value,
-      _recommendations.value,
-      _cgInstr.value,
-      _dataDesc.value,
-      patientID,
+      AssessmentModel(
+        -1,
+        _notes.value,
+        _condition.value,
+        _recommendations.value,
+        _cgInstr.value,
+        _dataDesc.value,
+        patientID,
+      ),
     );
   }
 }
