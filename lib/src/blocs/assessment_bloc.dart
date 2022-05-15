@@ -1,12 +1,14 @@
-import 'package:digicare/src/models/assessment_model.dart';
+import 'dart:async' show StreamTransformer;
 import 'package:rxdart/rxdart.dart';
 
 import '../mixins/validators.dart';
 import '../resources/rest_api.dart';
+import '../models/assessment_model.dart';
 
 class AssessmentBloc with Validator {
   final _api = RestAPI();
 
+  // NEW ASSESSMENT STREAMS
   final _notes = BehaviorSubject<String>();
   final _condition = BehaviorSubject<String>();
   final _recommendations = BehaviorSubject<String>();
@@ -25,7 +27,6 @@ class AssessmentBloc with Validator {
   Stream<String> get recommendationsStream =>
       _recommendations.stream.transform(validateText);
   Stream<String> get cgInstrStream => _cgInstr.stream.transform(validateText);
-
   Stream<String> get dataDescStream => _dataDesc.stream.transform(validateText);
 
   CombineLatestStream<dynamic, bool> get submitValid =>
@@ -37,6 +38,18 @@ class AssessmentBloc with Validator {
         dataDescStream,
         (n, c, r, cg, d) => true,
       );
+
+  // PAST ASSESSMENTS STREAMS
+  final _assessmentsFetch = BehaviorSubject<String>();
+  late Stream<Future<List<AssessmentModel>?>> _assessments;
+  Stream<Future<List<AssessmentModel>?>> get assessmentsStream => _assessments;
+  void Function(String) get fetchPastAssessments => _assessmentsFetch.sink.add;
+
+  AssessmentBloc() {
+    print("ASSESSMENT BLOC INIT");
+    _assessments =
+        _assessmentsFetch.stream.transform(_assessmentsTransformer());
+  }
 
   Future<void> submit(String jwt, int patientID) async {
     print("Uploading assessment..");
@@ -51,6 +64,22 @@ class AssessmentBloc with Validator {
         _dataDesc.value,
         patientID,
       ),
+    );
+  }
+
+  StreamTransformer<String, Future<List<AssessmentModel>?>>
+      _assessmentsTransformer() {
+    return StreamTransformer<String,
+        Future<List<AssessmentModel>?>>.fromHandlers(
+      handleData: (String jwt, sink) {
+        print("IN PAST ASSESSMENTS TRANSFORMER");
+        final _pastAssessments = _api.fetchPastAssessments(jwt);
+        if (_pastAssessments == null) {
+          sink.addError("No assessments found");
+        } else {
+          sink.add(_pastAssessments);
+        }
+      },
     );
   }
 }

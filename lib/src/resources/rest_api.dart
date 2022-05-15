@@ -197,4 +197,26 @@ class RestAPI {
 
     print('ASSESSMENT UPLOAD: ${response.statusCode}');
   }
+
+  Future<List<AssessmentModel>?> fetchPastAssessments(String jwt) async {
+    await Future.delayed(const Duration(milliseconds: 1000));
+    Response response = await client.get(
+      Uri.parse("$_hostAddress/assessments"),
+      headers: <String, String>{
+        "Authorization": "Bearer $jwt",
+      },
+    );
+
+    print(response.body);
+
+    final res = json.decode(response.body)['_embedded'];
+    if (res.containsKey('assessmentList')) {
+      List<AssessmentModel> doctors = [];
+      for (var doctor in res['assessmentList']) {
+        doctors.add(AssessmentModel.fromJson(doctor));
+      }
+      return doctors;
+    }
+    return null;
+  }
 }

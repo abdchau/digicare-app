@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 
 import 'blocs/login_bloc.dart';
@@ -13,6 +14,7 @@ import 'screens/dashboard_screen.dart';
 import 'screens/patient_display_screen.dart';
 import 'screens/sensor_display_screen.dart';
 import 'screens/add_doctor_screen.dart';
+import 'screens/past_assessments_screen.dart';
 
 class App extends StatelessWidget {
   @override
@@ -21,11 +23,14 @@ class App extends StatelessWidget {
       create: (BuildContext context) => UserBloc(),
       child: Provider<SensorBloc>(
         create: (BuildContext context) => SensorBloc(),
-        child: MaterialApp(
-          title: 'Digicare',
-          onGenerateRoute: routes,
-          theme: ThemeData(
-            primaryColor: const Color.fromRGBO(0, 109, 119, 1.0),
+        child: Provider<AssessmentBloc>(
+          create: (BuildContext context) => AssessmentBloc(),
+          child: MaterialApp(
+            title: 'Digicare',
+            onGenerateRoute: routes,
+            theme: ThemeData(
+              primaryColor: const Color.fromRGBO(0, 109, 119, 1.0),
+            ),
           ),
         ),
       ),
@@ -56,6 +61,14 @@ class App extends StatelessWidget {
       return MaterialPageRoute(
         builder: (BuildContext context) {
           return AddDoctorScreen();
+        },
+      );
+    } else if (settings.name == '/assessments') {
+      return MaterialPageRoute(
+        builder: (BuildContext context) {
+          Provider.of<AssessmentBloc>(context)
+              .fetchPastAssessments(Provider.of<UserBloc>(context).jwt);
+          return PastAssessmentsScreen();
         },
       );
     } else if (settings.name == '/signup') {
@@ -90,10 +103,7 @@ class App extends StatelessWidget {
           settings.arguments as Map<String, dynamic>;
       return MaterialPageRoute(
         builder: (BuildContext context) {
-          return Provider<AssessmentBloc>(
-            create: (BuildContext context) => AssessmentBloc(),
-            child: PatientDisplayScreen(rcvdData['patient']),
-          );
+          return PatientDisplayScreen(rcvdData['patient']);
         },
       );
     }

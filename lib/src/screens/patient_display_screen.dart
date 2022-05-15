@@ -56,6 +56,13 @@ class PatientDisplayScreen extends StatelessWidget {
         ),
         const SizedBox(height: 5),
         NewAssessment(patient.id),
+        const SizedBox(height: 5),
+        ElevatedButton(
+          child: const Text("View past assessments"),
+          onPressed: () {
+            Navigator.pushNamed(context, '/assessments');
+          },
+        ),
       ],
     );
   }
