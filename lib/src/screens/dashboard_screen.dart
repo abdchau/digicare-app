@@ -66,6 +66,15 @@ class DashboardScreen extends StatelessWidget {
                     children: patientDashboard(user, context),
                     padding: const EdgeInsets.all(10),
                   );
+                } else if (user.roles[0] == UserRole.ROLE_ADMIN) {
+                  return Center(
+                    child: ElevatedButton(
+                      child: const Text("Sign up new user"),
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/signup');
+                      },
+                    ),
+                  );
                 }
 
                 // DOCTOR
@@ -154,19 +163,24 @@ class DashboardScreen extends StatelessWidget {
                   shrinkWrap: true,
                   itemCount: patients.length,
                   itemBuilder: (context, int index) {
-                    return ListTile(
-                      title: Text(
-                          '${patients[index].firstName} ${patients[index].lastName}'),
-                      subtitle: Text("Age: ${patients[index].age}"),
-                      onTap: () {
-                        userBloc.patientID = patients[index].id;
+                    return Column(
+                      children: [
+                        ListTile(
+                          title: Text(
+                              '${patients[index].firstName} ${patients[index].lastName}'),
+                          subtitle: Text("Age: ${patients[index].age}"),
+                          onTap: () {
+                            userBloc.patientID = patients[index].id;
 
-                        Navigator.pushNamed(
-                          context,
-                          '/patientdata',
-                          arguments: {"patient": patients[index]},
-                        );
-                      },
+                            Navigator.pushNamed(
+                              context,
+                              '/patientdata',
+                              arguments: {"patient": patients[index]},
+                            );
+                          },
+                        ),
+                        const Divider(),
+                      ],
                     );
                   },
                   padding: const EdgeInsets.all(10));

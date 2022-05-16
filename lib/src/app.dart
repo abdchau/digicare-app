@@ -2,19 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 
-import 'blocs/login_bloc.dart';
-import 'blocs/user_bloc.dart';
-import 'blocs/sensor_bloc.dart';
-import 'blocs/signup_bloc.dart';
-import 'blocs/assessment_bloc.dart';
-
-import 'screens/login_screen.dart';
-import 'screens/signup_screen.dart';
-import 'screens/dashboard_screen.dart';
-import 'screens/patient_display_screen.dart';
-import 'screens/sensor_display_screen.dart';
-import 'screens/add_doctor_screen.dart';
-import 'screens/past_assessments_screen.dart';
+import 'blocs/blocs.dart';
+import 'screens/screens.dart';
 
 class App extends StatelessWidget {
   @override

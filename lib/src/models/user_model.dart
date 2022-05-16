@@ -5,6 +5,7 @@ import 'address_model.dart';
 enum UserRole {
   ROLE_PATIENT,
   ROLE_DOCTOR,
+  ROLE_ADMIN,
 }
 
 List<UserRole> _getRoles(roles) {
