@@ -69,7 +69,7 @@ class PastAssessmentsScreen extends StatelessWidget {
                         background: Container(color: Colors.red),
                         child: ListTile(
                           title: Text('${assessments[index].dataDesc}'),
-                          subtitle: Text("Age: ${assessments[index].id}"),
+                          subtitle: Text("${assessments[index].timestamp}"),
                           onTap: () {
                             print(assessments[index].dataDesc);
                           },

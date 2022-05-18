@@ -5,6 +5,7 @@ import '../../blocs/login_bloc.dart';
 import '../../blocs/user_bloc.dart';
 
 import '../misc/stream_text_field.dart';
+import '../misc/submit_button.dart';
 
 class LoginCard extends StatefulWidget {
   @override
@@ -194,11 +195,29 @@ class _LoginCardState extends State<LoginCard> {
           ),
         ),
         const SizedBox(height: 20),
-        signupButton(context, Icons.health_and_safety, "Doctor"),
+        SubmitButton(
+          text: "Doctor",
+          onPressed: () {
+            Navigator.pushNamed(context, '/signup');
+          },
+          iconData: Icons.health_and_safety,
+        ),
         const SizedBox(height: 20),
-        signupButton(context, Icons.masks, "Patient"),
+        SubmitButton(
+          text: "Patient",
+          onPressed: () {
+            Navigator.pushNamed(context, '/signup');
+          },
+          iconData: Icons.masks,
+        ),
         const SizedBox(height: 20),
-        signupButton(context, Icons.health_and_safety, "Caregiver"),
+        SubmitButton(
+          text: "Caregiver",
+          onPressed: () {
+            Navigator.pushNamed(context, '/signup');
+          },
+          iconData: Icons.health_and_safety,
+        ),
         const SizedBox(height: 10),
         Row(
           children: const [
@@ -212,38 +231,6 @@ class _LoginCardState extends State<LoginCard> {
         ),
         const SizedBox(height: 2),
         indexButton("Log in", Icons.arrow_back),
-      ],
-    );
-  }
-
-  Widget signupButton(
-      BuildContext context, final IconData iconData, final String text) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Icon(iconData),
-        const SizedBox(width: 15),
-        Expanded(
-          child: SizedBox(
-            height: 45,
-            child: TextButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/signup');
-              },
-              style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(
-                      Theme.of(context).primaryColor)),
-              child: Text(
-                text,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                ),
-              ),
-            ),
-          ),
-        ),
       ],
     );
   }

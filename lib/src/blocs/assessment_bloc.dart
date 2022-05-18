@@ -64,6 +64,7 @@ class AssessmentBloc with Validator {
         _cgInstr.value,
         _dataDesc.value,
         patientID,
+        DateTime.now(),
       ),
     );
   }

@@ -187,6 +187,8 @@ class RestAPI {
     String jwt,
     AssessmentModel assessment,
   ) async {
+    print(assessment);
+
     await Future.delayed(const Duration(milliseconds: 1000));
     Response response = await client.post(
       Uri.parse("$_hostAddress/assessments"),

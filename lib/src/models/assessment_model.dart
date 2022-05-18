@@ -1,6 +1,7 @@
 class AssessmentModel {
   String notes, condition, recommendations, cgInstr, dataDesc;
   int id, patientID;
+  DateTime timestamp;
 
   AssessmentModel(
     this.id,
@@ -10,6 +11,7 @@ class AssessmentModel {
     this.cgInstr,
     this.dataDesc,
     this.patientID,
+    this.timestamp,
   );
 
   AssessmentModel.fromJson(parsedJson)
@@ -19,7 +21,8 @@ class AssessmentModel {
         recommendations = parsedJson["recommendations"],
         cgInstr = parsedJson["cg_instr"],
         dataDesc = parsedJson["data_desc"],
-        patientID = parsedJson["patient"]["id"];
+        patientID = parsedJson["patient"]["id"],
+        timestamp = DateTime.tryParse(parsedJson["timestamp"])!;
 
   @override
   String toString() {
@@ -29,7 +32,8 @@ class AssessmentModel {
         "recommendations": "$recommendations",
         "cg_instr": "$cgInstr",
         "data_desc": "$dataDesc",
-        "patient_id": $patientID
+        "patient_id": $patientID,
+        "timestamp": "${timestamp.toIso8601String()}"
       }''';
   }
 }
