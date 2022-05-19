@@ -3,10 +3,12 @@ import 'package:flutter/services.dart';
 
 class StreamTextField extends StatelessWidget {
   final Stream stream;
-  final void Function(String) onChanged;
+  final void Function(String)? onChanged;
   final String hintText, labelText;
+  final String? text;
   final TextInputType textInputType;
   final bool obscureText;
+  final FocusNode? focusNode;
   final int minLines, maxLines;
   final EdgeInsets? margin, padding;
   final BoxDecoration? decoration;
@@ -16,7 +18,7 @@ class StreamTextField extends StatelessWidget {
     required this.hintText,
     required this.labelText,
     required this.stream,
-    required this.onChanged,
+    this.onChanged,
     this.textInputType = TextInputType.text,
     this.obscureText = false,
     this.minLines = 1,
@@ -25,6 +27,8 @@ class StreamTextField extends StatelessWidget {
     this.padding,
     this.decoration,
     this.style,
+    this.focusNode,
+    this.text,
   });
 
   @override
@@ -37,6 +41,7 @@ class StreamTextField extends StatelessWidget {
           padding: padding,
           decoration: decoration,
           child: TextField(
+            controller: text == null ? null : TextEditingController(text: text),
             decoration: InputDecoration(
               fillColor: Colors.white,
               hintText: hintText,
@@ -55,6 +60,7 @@ class StreamTextField extends StatelessWidget {
             onChanged: onChanged,
             minLines: minLines,
             maxLines: maxLines,
+            focusNode: focusNode,
           ),
         );
       },

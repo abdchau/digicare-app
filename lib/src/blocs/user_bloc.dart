@@ -11,6 +11,7 @@ class UserBloc {
   late String jwt, _email;
   late int id;
   late int patientID;
+  late UserModel user;
 
   final _patientsFetch = BehaviorSubject<int>();
   late Stream<Future<List<UserModel>?>> _patients;
@@ -31,6 +32,10 @@ class UserBloc {
 
   set setID(int id) {
     this.id = id;
+  }
+
+  set setUser(UserModel user) {
+    this.user = user;
   }
 
   set setPatientID(int id) {

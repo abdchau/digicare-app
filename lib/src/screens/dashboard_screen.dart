@@ -57,6 +57,7 @@ class DashboardScreen extends StatelessWidget {
               } else {
                 userBloc.id = userSnapshot.data!.id;
                 UserModel user = userSnapshot.data!;
+                userBloc.user = user;
 
                 // PATIENT
                 if (user.roles[0] == UserRole.ROLE_PATIENT) {
@@ -82,6 +83,7 @@ class DashboardScreen extends StatelessWidget {
                   return Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
+                      Flex(direction: Axis.horizontal),
                       profile(user),
                       const SizedBox(height: 5),
                       doctorDashboard(user, context, userBloc)
@@ -159,31 +161,34 @@ class DashboardScreen extends StatelessWidget {
               );
             } else {
               List<UserModel> patients = patientsSnapshot.data!;
-              return ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: patients.length,
-                  itemBuilder: (context, int index) {
-                    return Column(
-                      children: [
-                        ListTile(
-                          title: Text(
-                              '${patients[index].firstName} ${patients[index].lastName}'),
-                          subtitle: Text("Age: ${patients[index].age}"),
-                          onTap: () {
-                            userBloc.patientID = patients[index].id;
+              return SizedBox(
+                width: 400,
+                child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: patients.length,
+                    itemBuilder: (context, int index) {
+                      return Column(
+                        children: [
+                          ListTile(
+                            title: Text(
+                                '${patients[index].firstName} ${patients[index].lastName}'),
+                            subtitle: Text("Age: ${patients[index].age}"),
+                            onTap: () {
+                              userBloc.patientID = patients[index].id;
 
-                            Navigator.pushNamed(
-                              context,
-                              '/patientdata',
-                              arguments: {"patient": patients[index]},
-                            );
-                          },
-                        ),
-                        const Divider(),
-                      ],
-                    );
-                  },
-                  padding: const EdgeInsets.all(10));
+                              Navigator.pushNamed(
+                                context,
+                                '/patientdata',
+                                arguments: {"patient": patients[index]},
+                              );
+                            },
+                          ),
+                          const Divider(),
+                        ],
+                      );
+                    },
+                    padding: const EdgeInsets.all(10)),
+              );
             }
           },
         );

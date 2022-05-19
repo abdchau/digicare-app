@@ -16,7 +16,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     LoginBloc bloc = Provider.of<LoginBloc>(context);
-    print(MediaQuery.of(context).size.height);
+    print(MediaQuery.of(context).size);
 
     return Scaffold(
       appBar: AppBar(
@@ -40,6 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
               const SizedBox(height: 30),
               Container(
                 padding: const EdgeInsets.all(20),
+                constraints: const BoxConstraints(maxWidth: 350),
                 decoration: const BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.vertical(

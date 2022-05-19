@@ -40,13 +40,16 @@ class AddDoctorScreen extends StatelessWidget {
                 );
               }
               List<UserModel> doctors = doctorsSnapshot.data!;
-              return ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: doctors.length,
-                  itemBuilder: (context, int index) {
-                    return DoctorListItem(doctors[index]);
-                  },
-                  padding: const EdgeInsets.all(10));
+              return SizedBox(
+                width: 400,
+                child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: doctors.length,
+                    itemBuilder: (context, int index) {
+                      return DoctorListItem(doctors[index]);
+                    },
+                    padding: const EdgeInsets.all(10)),
+              );
             },
           );
         },
