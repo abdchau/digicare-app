@@ -5,8 +5,10 @@ import '../models/user_model.dart';
 import '../resources/rest_api.dart';
 
 class UserBloc {
-  final _userFetch = BehaviorSubject<int>();
+  final _userFetch = BehaviorSubject<dynamic>();
   late Stream<Future<UserModel>> _user;
+  final _cgUserFetch = BehaviorSubject<dynamic>();
+  late Stream<Future<UserModel>> _cgUser;
   final _api = RestAPI();
   late String jwt, _email;
   late int id;
@@ -45,6 +47,7 @@ class UserBloc {
   UserBloc() {
     print("USERBLOC INIT");
     _user = _userFetch.stream.transform(_userTransformer());
+    _cgUser = _cgUserFetch.stream.transform(_userTransformer());
     _patients = _patientsFetch.stream.transform(_patientsTransformer());
     _doctors = _doctorsFetch.stream.transform(_doctorsTransformer());
     _allDoctors = _allDoctorsFetch.stream.transform(_allDoctorsTransformer());
@@ -52,21 +55,29 @@ class UserBloc {
 
   // getters to streams
   Stream<Future<UserModel>> get userStream => _user;
+  Stream<Future<UserModel>> get cgUserStream => _cgUser;
   Stream<Future<List<UserModel>?>> get patientsStream => _patients;
   Stream<Future<List<UserModel>?>> get doctorsStream => _doctors;
   Stream<Future<List<UserModel>?>> get allDoctorsStream => _allDoctors;
 
   // getters to sinks
-  void Function(int) get fetchUser => _userFetch.sink.add;
+  void Function(dynamic) get fetchUser => _userFetch.sink.add;
+  void Function(dynamic) get fetchCgUser => _cgUserFetch.sink.add;
   void Function(int) get fetchPatients => _patientsFetch.sink.add;
   void Function(int) get fetchDoctors => _doctorsFetch.sink.add;
   void Function(int) get fetchAllDoctors => _allDoctorsFetch.sink.add;
 
-  StreamTransformer<int, Future<UserModel>> _userTransformer() {
-    return StreamTransformer<int, Future<UserModel>>.fromHandlers(
-      handleData: (int userID, sink) {
+  StreamTransformer<dynamic, Future<UserModel>> _userTransformer() {
+    return StreamTransformer<dynamic, Future<UserModel>>.fromHandlers(
+      handleData: (dynamic userID, sink) {
+        String? email;
+        try {
+          email = userID as String;
+        } catch (e) {
+          print("not cguser");
+        }
         print("IN USERTRANSFORMER");
-        final _userReturned = _api.fetchUser(jwt, _email);
+        final _userReturned = _api.fetchUser(jwt, email ?? _email);
         sink.add(_userReturned);
       },
     );
@@ -86,7 +97,7 @@ class UserBloc {
     return StreamTransformer<int, Future<List<UserModel>?>>.fromHandlers(
       handleData: (int userID, sink) {
         print("IN PATIENTS DOCTOR TRANSFORMER");
-        final _doctorsReturned = _api.fetchPatientsDoctors(jwt, id);
+        final _doctorsReturned = _api.fetchPatientsDoctors(jwt, patientID);
         if (_doctorsReturned == null) {
           sink.addError("No doctors found");
         } else {
@@ -110,13 +121,13 @@ class UserBloc {
     );
   }
 
-  void addDoctorPermission(int doctorID) async {
+  void addDoctorPermission(int patientID, int doctorID) async {
     await _api.addDoctorPermission(jwt, patientID, doctorID);
     print('Added $patientID $doctorID');
     fetchDoctors(1);
   }
 
-  void revokeDoctorPermission(int doctorID) async {
+  void revokeDoctorPermission(int patientID, int doctorID) async {
     await _api.revokeDoctorPermission(jwt, patientID, doctorID);
     print("Revoked $patientID $doctorID");
   }

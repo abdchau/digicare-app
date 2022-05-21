@@ -6,6 +6,7 @@ import '../blocs/user_bloc.dart';
 
 import '../widgets/dashboard/sensors_tab.dart';
 import '../widgets/dashboard/doctors_tab.dart';
+import '../widgets/misc/submit_button.dart';
 // import '../widgets/dashboard/refresh.dart';
 
 // import '../blocs/sensor_bloc.dart';
@@ -112,15 +113,30 @@ class DashboardScreen extends StatelessWidget {
                 }
 
                 // CAREGIVER
-                else if (user.roles[0] == UserRole.ROLE_ADMIN) {
+                else if (user.roles[0] == UserRole.ROLE_CG) {
                   return SingleChildScrollView(
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Flex(direction: Axis.horizontal),
-                        profile(user),
+                        const SizedBox(height: 10),
+                        Container(
+                          padding: const EdgeInsets.all(25),
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).primaryColor,
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(10)),
+                          ),
+                          child: Text(
+                            "Welcome, ${user.firstName} ${user.lastName}\nYour patient's details are below:",
+                            style: const TextStyle(
+                              color: Colors.white,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
                         const SizedBox(height: 5),
-                        caregiverDashboard(context, userBloc),
+                        caregiverDashboard(user.cgUser!, context, userBloc),
                       ],
                     ),
                   );
@@ -176,7 +192,7 @@ class DashboardScreen extends StatelessWidget {
               child: TabBarView(
                 children: [
                   SensorsTab(),
-                  DoctorsTab(),
+                  DoctorsTab(user.id),
                 ],
               ),
             ),
@@ -184,6 +200,20 @@ class DashboardScreen extends StatelessWidget {
         ),
       ),
     ];
+  }
+
+  Widget caregiverDashboard(
+      UserModel patient, BuildContext context, UserBloc userBloc) {
+    // userBloc.fetchCgUser()
+    userBloc.patientID = patient.id;
+    return Container(
+      alignment: Alignment.topCenter,
+      width: 400,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: patientDashboard(patient, context),
+      ),
+    );
   }
 
   Widget doctorDashboard(
@@ -273,14 +303,50 @@ class DashboardScreen extends StatelessWidget {
       child: ListView(
         scrollDirection: Axis.vertical,
         children: <Widget>[
-          const DrawerHeader(
-            child: Text("Hi"),
+          Container(
+            margin: const EdgeInsets.all(4),
+            alignment: Alignment.center,
+            color: Theme.of(context).primaryColor,
+            child: ListTile(
+              title: const Text(
+                "About",
+                style: TextStyle(color: Colors.white),
+                textAlign: TextAlign.center,
+              ),
+              onTap: () {
+                // Navigator.of(context).popUntil((route) => route.isFirst);
+              },
+            ),
           ),
-          ListTile(
-            title: const Text("Logout"),
-            onTap: () {
-              Navigator.of(context).popUntil((route) => route.isFirst);
-            },
+          Container(
+            margin: const EdgeInsets.all(4),
+            alignment: Alignment.center,
+            color: Theme.of(context).primaryColor,
+            child: ListTile(
+              title: const Text(
+                "Settings",
+                style: TextStyle(color: Colors.white),
+                textAlign: TextAlign.center,
+              ),
+              onTap: () {
+                // Navigator.of(context).popUntil((route) => route.isFirst);
+              },
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.all(4),
+            alignment: Alignment.center,
+            color: Theme.of(context).primaryColor,
+            child: ListTile(
+              title: const Text(
+                "Logout",
+                style: TextStyle(color: Colors.white),
+                textAlign: TextAlign.center,
+              ),
+              onTap: () {
+                Navigator.of(context).popUntil((route) => route.isFirst);
+              },
+            ),
           ),
         ],
         padding: const EdgeInsets.all(5),

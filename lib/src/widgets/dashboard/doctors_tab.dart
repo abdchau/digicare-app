@@ -5,6 +5,10 @@ import '../../blocs/user_bloc.dart';
 import '../../models/user_model.dart';
 
 class DoctorsTab extends StatefulWidget {
+  int patientID;
+
+  DoctorsTab(this.patientID);
+
   @override
   State<StatefulWidget> createState() {
     return DoctorsTabState();
@@ -42,7 +46,8 @@ class DoctorsTabState extends State<DoctorsTab>
                         const Text("No doctors have permission to view data"),
                     subtitle: const Text("Tap to add doctors"),
                     onTap: () {
-                      Navigator.pushNamed(context, '/add_doctors');
+                      Navigator.pushNamed(context, '/add_doctors',
+                          arguments: {'patientID': widget.patientID});
                     },
                     trailing: const Icon(Icons.add),
                   );
@@ -65,7 +70,8 @@ class DoctorsTabState extends State<DoctorsTab>
                       Dismissible(
                         key: Key(doctors[index].cnic),
                         onDismissed: (DismissDirection direction) {
-                          userBloc.revokeDoctorPermission(doctors[index].id);
+                          userBloc.revokeDoctorPermission(
+                              widget.patientID, doctors[index].id);
                           setState(() {
                             doctors.removeAt(index);
                           });
@@ -102,7 +108,8 @@ class DoctorsTabState extends State<DoctorsTab>
                     title: const Text("Want more?"),
                     subtitle: const Text("Tap to add doctors"),
                     onTap: () {
-                      Navigator.pushNamed(context, '/add_doctors');
+                      Navigator.pushNamed(context, '/add_doctors',
+                          arguments: {'patientID': widget.patientID});
                     },
                     trailing: const Icon(Icons.add),
                   );

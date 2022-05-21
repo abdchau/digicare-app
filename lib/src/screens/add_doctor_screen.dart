@@ -6,6 +6,10 @@ import '../blocs/user_bloc.dart';
 import '../models/user_model.dart';
 
 class AddDoctorScreen extends StatelessWidget {
+  int patientID;
+
+  AddDoctorScreen(this.patientID);
+
   @override
   Widget build(BuildContext context) {
     UserBloc userBloc = Provider.of<UserBloc>(context);
@@ -46,7 +50,7 @@ class AddDoctorScreen extends StatelessWidget {
                   shrinkWrap: true,
                   itemCount: doctors.length,
                   itemBuilder: (context, int index) {
-                    return DoctorListItem(doctors[index]);
+                    return DoctorListItem(doctors[index], patientID);
                   },
                   padding: const EdgeInsets.all(10),
                 ),

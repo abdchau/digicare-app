@@ -42,11 +42,14 @@ class PastAssessmentsScreen extends StatelessWidget {
                           Provider.of<UserBloc>(context).user.roles[0] ==
                                   UserRole.ROLE_DOCTOR
                               ? "Tap to add assessments"
-                              : "Ask your doctor to make an assessment"),
+                              : "There are no assessments in database"),
                       onTap: () {
                         Navigator.pop(context);
                       },
-                      trailing: const Icon(Icons.add),
+                      trailing: Provider.of<UserBloc>(context).user.roles[0] ==
+                              UserRole.ROLE_DOCTOR
+                          ? const Icon(Icons.add)
+                          : null,
                     );
                   },
                 );

@@ -6,6 +6,7 @@ enum UserRole {
   ROLE_PATIENT,
   ROLE_DOCTOR,
   ROLE_ADMIN,
+  ROLE_CG,
 }
 
 List<UserRole> _getRoles(roles) {
@@ -23,6 +24,7 @@ class UserModel {
   List<UserRole> roles;
   AddressModel address;
   int id, age;
+  UserModel? cgUser;
 
   UserModel(
     this.firstName,
@@ -48,7 +50,10 @@ class UserModel {
         address = AddressModel.fromJson(parsedJson['address']),
         id = parsedJson['id'] ?? -999,
         age = parsedJson['age'] ?? -9999,
-        roles = _getRoles(parsedJson['roles']);
+        roles = _getRoles(parsedJson['roles']),
+        cgUser = parsedJson['cg_user'] == null
+            ? null
+            : UserModel.fromJson(parsedJson['cg_user']);
 
   @override
   String toString() {

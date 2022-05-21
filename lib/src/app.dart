@@ -48,9 +48,11 @@ class App extends StatelessWidget {
         },
       );
     } else if (settings.name == '/add_doctors') {
+      final Map<String, dynamic> rcvdData =
+          settings.arguments as Map<String, dynamic>;
       return MaterialPageRoute(
         builder: (BuildContext context) {
-          return AddDoctorScreen();
+          return AddDoctorScreen(rcvdData['patientID']);
         },
       );
     } else if (settings.name == '/assessments') {

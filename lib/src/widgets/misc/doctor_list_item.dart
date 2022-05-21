@@ -6,8 +6,9 @@ import '../../blocs/user_bloc.dart';
 
 class DoctorListItem extends StatelessWidget {
   final UserModel doctor;
+  int patientID;
 
-  DoctorListItem(this.doctor);
+  DoctorListItem(this.doctor, this.patientID);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,7 @@ class DoctorListItem extends StatelessWidget {
           subtitle: Text("Age: ${doctor.age}"),
           onTap: () {
             print(doctor.firstName);
-            userBloc.addDoctorPermission(doctor.id);
+            userBloc.addDoctorPermission(patientID, doctor.id);
             Navigator.pop(context);
           },
           trailing: const Icon(Icons.add),
