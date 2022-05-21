@@ -10,6 +10,7 @@ class NameAndAvatar extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 150,
+      width: 500,
       child: Stack(
         children: [
           ClipPath(
@@ -42,7 +43,7 @@ class NameAndAvatar extends StatelessWidget {
                     Text(
                       "${user.firstName} ${user.lastName}",
                       style: const TextStyle(
-                        fontSize: 32,
+                        fontSize: 24,
                         color: Colors.black,
                       ),
                     ),
@@ -50,7 +51,7 @@ class NameAndAvatar extends StatelessWidget {
                     Text(
                       user.email,
                       style: const TextStyle(
-                        fontSize: 20,
+                        fontSize: 16,
                         // color: darkColor,
                       ),
                     ),

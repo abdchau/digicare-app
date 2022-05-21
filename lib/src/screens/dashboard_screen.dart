@@ -62,10 +62,20 @@ class DashboardScreen extends StatelessWidget {
                 // PATIENT
                 if (user.roles[0] == UserRole.ROLE_PATIENT) {
                   userBloc.patientID = userBloc.id;
-                  return ListView(
-                    scrollDirection: Axis.vertical,
-                    children: patientDashboard(user, context),
+                  return SingleChildScrollView(
                     padding: const EdgeInsets.all(10),
+                    scrollDirection: Axis.vertical,
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Container(
+                        alignment: Alignment.topCenter,
+                        width: 400,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: patientDashboard(user, context),
+                        ),
+                      ),
+                    ),
                   );
                 } else if (user.roles[0] == UserRole.ROLE_ADMIN) {
                   return Center(
@@ -100,6 +110,7 @@ class DashboardScreen extends StatelessWidget {
 
   List<Widget> patientDashboard(UserModel user, BuildContext context) {
     return <Widget>[
+      Flex(direction: Axis.horizontal),
       profile(user),
       DefaultTabController(
         length: 2,

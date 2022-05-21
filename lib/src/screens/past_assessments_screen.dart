@@ -82,6 +82,7 @@ class _WideLayoutState extends State<WideLayout> {
   @override
   Widget build(BuildContext context) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
           flex: 2,
@@ -97,7 +98,8 @@ class _WideLayoutState extends State<WideLayout> {
         Expanded(
           flex: 3,
           child: _assessment == null
-              ? const Placeholder()
+              ? const Center(
+                  child: Text("Please select assessment to view details"))
               : AssessmentDetailScreen(_assessment!),
         ),
       ],

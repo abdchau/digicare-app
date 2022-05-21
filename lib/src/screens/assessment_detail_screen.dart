@@ -49,7 +49,7 @@ class AssessmentDetailScreen extends StatelessWidget {
         child: Column(
           children: [
             StreamTextField(
-              hintText: "Tap to add notes",
+              hintText: "Notes",
               labelText: "Notes",
               stream: detail.notesStream,
               text: _assessment.notes,
@@ -63,7 +63,7 @@ class AssessmentDetailScreen extends StatelessWidget {
               focusNode: _AlwaysDisabledFocusNode(),
             ),
             StreamTextField(
-              hintText: "Tap to add condition",
+              hintText: "Condition",
               labelText: "Condition",
               stream: detail.conditionStream,
               text: _assessment.condition,
@@ -77,7 +77,7 @@ class AssessmentDetailScreen extends StatelessWidget {
               focusNode: _AlwaysDisabledFocusNode(),
             ),
             StreamTextField(
-              hintText: "Tap to add recommendations",
+              hintText: "Recommendations",
               labelText: "Recommendations",
               stream: detail.recommendationsStream,
               text: _assessment.recommendations,
@@ -91,7 +91,7 @@ class AssessmentDetailScreen extends StatelessWidget {
               focusNode: _AlwaysDisabledFocusNode(),
             ),
             StreamTextField(
-              hintText: "Tap to add caregiver instrucitons",
+              hintText: "CG Instructions",
               labelText: "CG Instructions",
               stream: detail.cgInstrStream,
               text: _assessment.cgInstr,
@@ -105,7 +105,7 @@ class AssessmentDetailScreen extends StatelessWidget {
               focusNode: _AlwaysDisabledFocusNode(),
             ),
             StreamTextField(
-              hintText: "Describe the data here",
+              hintText: "Data description",
               labelText: "Data description",
               stream: detail.dataDescStream,
               text: _assessment.dataDesc,
