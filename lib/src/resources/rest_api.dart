@@ -225,4 +225,37 @@ class RestAPI {
     }
     return null;
   }
+
+  Future<String> signupUser(String jwt, Map<String, dynamic> data) async {
+    Response response = await client.post(
+      Uri.parse("$_hostAddress/users"),
+      headers: <String, String>{
+        "Authorization": "Bearer $jwt",
+        "Content-Type": "application/json",
+      },
+      body: '''{
+        "firstName": "${data["firstName"]}",
+        "lastName": "${data["lastName"]}",
+        "email": "${data["email"]}",
+        "password": "${data["password"]}",
+        "address": {
+          "suite": "${data["suite"]}",
+          "street": "${data["street"]}",
+          "city": "${data["city"]}",
+          "zipcode": "${data["zip_code"]}"
+        },
+        "phone_no": "${data["phone_no"]}",
+        "dob": "${data["dob"]}",
+        "gender": "${data["gender"]}",
+        "cnic": "${data["cnic"]}",
+        "age": ${data["age"]},
+        "role": ${data["role"]},
+        "emergencey_contact": "${data["emergencey_contact"]}"
+      }''',
+    );
+
+    print("SIGN UP ${response.statusCode}");
+
+    return response.statusCode.toString();
+  }
 }

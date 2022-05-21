@@ -77,13 +77,51 @@ class DashboardScreen extends StatelessWidget {
                       ),
                     ),
                   );
-                } else if (user.roles[0] == UserRole.ROLE_ADMIN) {
-                  return Center(
-                    child: ElevatedButton(
-                      child: const Text("Sign up new user"),
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/signup');
-                      },
+                }
+
+                // ADMIN
+                else if (user.roles[0] == UserRole.ROLE_ADMIN) {
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Flex(direction: Axis.horizontal),
+                      SizedBox(
+                        width: 325,
+                        child: SubmitButton(
+                          text: "Sign up new user",
+                          iconData: Icons.outbox,
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/signup');
+                          },
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      SizedBox(
+                        width: 325,
+                        child: SubmitButton(
+                          text: "Register new device",
+                          iconData: Icons.app_registration_rounded,
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/signup');
+                          },
+                        ),
+                      ),
+                    ],
+                  );
+                }
+
+                // CAREGIVER
+                else if (user.roles[0] == UserRole.ROLE_ADMIN) {
+                  return SingleChildScrollView(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Flex(direction: Axis.horizontal),
+                        profile(user),
+                        const SizedBox(height: 5),
+                        caregiverDashboard(context, userBloc),
+                      ],
                     ),
                   );
                 }
