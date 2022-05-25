@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../blocs/user_bloc.dart';
+import '../blocs/notification_bloc.dart';
 
 import '../widgets/dashboard/sensors_tab.dart';
 import '../widgets/dashboard/doctors_tab.dart';
@@ -13,6 +14,7 @@ import '../widgets/misc/submit_button.dart';
 // import '../blocs/user_bloc.dart';
 
 import '../models/user_model.dart';
+import '../models/notification_model.dart';
 // import '../models/sensor_model.dart';
 
 import '../widgets/dashboard/profile/profile_widget.dart';
@@ -98,16 +100,16 @@ class DashboardScreen extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 20),
-                      SizedBox(
-                        width: 325,
-                        child: SubmitButton(
-                          text: "Register new device",
-                          iconData: Icons.app_registration_rounded,
-                          onPressed: () {
-                            Navigator.pushNamed(context, '/signup');
-                          },
-                        ),
-                      ),
+                      // SizedBox(
+                      //   width: 325,
+                      //   child: SubmitButton(
+                      //     text: "Register new device",
+                      //     iconData: Icons.app_registration_rounded,
+                      //     onPressed: () {
+                      //       Navigator.pushNamed(context, '/signup');
+                      //     },
+                      //   ),
+                      // ),
                     ],
                   );
                 }
@@ -163,6 +165,8 @@ class DashboardScreen extends StatelessWidget {
   }
 
   List<Widget> patientDashboard(UserModel user, BuildContext context) {
+    final notifBloc = Provider.of<NotificationBloc>(context);
+    notifBloc.fetchNotifications(Provider.of<UserBloc>(context).jwt, user.id);
     return <Widget>[
       Flex(direction: Axis.horizontal),
       profile(user),
@@ -171,6 +175,54 @@ class DashboardScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
+            Container(
+              margin: const EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
+              child: StreamBuilder(
+                stream: notifBloc.notificationStream,
+                builder: (BuildContext context,
+                    AsyncSnapshot<Future<List<NotificationModel>>> snapshot) {
+                  if (!snapshot.hasData) {
+                    return const Center(
+                      child: Text("No notifications..."),
+                    );
+                  } else {
+                    return FutureBuilder(
+                      future: snapshot.data,
+                      builder: (BuildContext context,
+                          AsyncSnapshot<List<NotificationModel>?>
+                              notifSnapshot) {
+                        if (!notifSnapshot.hasData) {
+                          return const Center(
+                            child: Text("No notifications..."),
+                          );
+                        } else {
+                          List<NotificationModel> notifs = notifSnapshot.data!;
+                          print(notifs);
+                          return Container(
+                            color: Colors.grey[300],
+                            // height: 200,
+                            width: 400,
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: notifs.length,
+                              itemBuilder: (context, index) {
+                                return ListTile(
+                                  title: Text(notifs[index].content),
+                                  subtitle: Text(notifs[index].title),
+                                );
+                              },
+                            ),
+                          );
+                        }
+                      },
+                    );
+                  }
+                  // return FutureBuilder(
+                  //   future: snapshot.data,
+                },
+              ),
+            ),
             Container(
               height: 60,
               color: Theme.of(context).primaryColor,

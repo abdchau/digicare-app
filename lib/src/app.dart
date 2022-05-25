@@ -14,11 +14,14 @@ class App extends StatelessWidget {
         create: (BuildContext context) => SensorBloc(),
         child: Provider<AssessmentBloc>(
           create: (BuildContext context) => AssessmentBloc(),
-          child: MaterialApp(
-            title: 'Digicare',
-            onGenerateRoute: routes,
-            theme: ThemeData(
-              primaryColor: const Color.fromRGBO(0, 109, 119, 1.0),
+          child: Provider<NotificationBloc>(
+            create: (BuildContext context) => NotificationBloc(),
+            child: MaterialApp(
+              title: 'Digicare',
+              onGenerateRoute: routes,
+              theme: ThemeData(
+                primaryColor: const Color.fromRGBO(0, 109, 119, 1.0),
+              ),
             ),
           ),
         ),

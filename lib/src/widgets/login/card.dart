@@ -30,6 +30,7 @@ class _LoginCardState extends State<LoginCard> {
   Widget loginCard(LoginBloc bloc, BuildContext context) {
     return Column(
       children: [
+        const SizedBox(height: 15),
         Text(
           "Login",
           style: TextStyle(
@@ -70,18 +71,18 @@ class _LoginCardState extends State<LoginCard> {
           ),
         ),
         const SizedBox(height: 20),
-        Row(
-          children: const [
-            Expanded(child: Divider()),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              child: Text('OR'),
-            ),
-            Expanded(child: Divider()),
-          ],
-        ),
-        const SizedBox(height: 10),
-        indexButton("Sign up", Icons.arrow_forward),
+        // Row(
+        //   children: const [
+        //     Expanded(child: Divider()),
+        //     Padding(
+        //       padding: EdgeInsets.symmetric(horizontal: 10),
+        //       child: Text('OR'),
+        //     ),
+        //     Expanded(child: Divider()),
+        //   ],
+        // ),
+        // const SizedBox(height: 10),
+        // indexButton("Sign up", Icons.arrow_forward),
       ],
     );
   }

@@ -2,6 +2,7 @@ import 'dart:convert' show json;
 import 'package:digicare/src/models/assessment_model.dart';
 import 'package:digicare/src/models/reading_model.dart';
 import 'package:digicare/src/models/sensor_model.dart';
+import 'package:digicare/src/models/notification_model.dart';
 import 'package:http/http.dart';
 // import 'package:http/testing.dart';
 
@@ -10,8 +11,8 @@ import '../models/user_model.dart';
 class RestAPI {
   final Client client = Client();
   // final String _hostAddress = "http://10.0.2.2:8080";
-  final String _hostAddress = "http://127.0.0.1:8080";
-  // final String _hostAddress = "https://digicare-rest.herokuapp.com";
+  // final String _hostAddress = "http://127.0.0.1:8080";
+  final String _hostAddress = "https://digicare-rest.herokuapp.com";
 
   Future<String?> authenticate(String email, String password) async {
     Response response = await client.post(
@@ -257,5 +258,22 @@ class RestAPI {
     print("SIGN UP ${response.statusCode}");
 
     return response.statusCode.toString();
+  }
+
+  Future<List<NotificationModel>> fetchNotifications(
+      String jwt, int patientID) async {
+    await Future.delayed(const Duration(milliseconds: 1500));
+    Response response = await client.get(
+      Uri.parse("$_hostAddress/notifications/patient/$patientID"),
+      headers: <String, String>{
+        "Authorization": "Bearer $jwt",
+      },
+    );
+    print(response.body);
+    final List list =
+        json.decode(response.body)['_embedded']['notificationList'];
+    final ret = NotificationModel.list(list);
+    print("$ret NOTIFICATION API");
+    return ret;
   }
 }
